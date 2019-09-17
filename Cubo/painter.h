@@ -5,8 +5,7 @@
 #ifndef PAINTER_H
 #define PAINTER_H
 
-#include "cubo.h"
-
+#include "canvas.h"
 
 class Painter: public QWidget
 {
@@ -20,7 +19,7 @@ private slots:
 
 private:
 	
-	Cubo * cubo;
+	Canvas *canvas;
 	QLabel *messpos;
 	QLabel *messize;
 	QLabel *visorMouse;

@@ -12,6 +12,6 @@ INCLUDEPATH += "/usr/X11/include"
 QT += opengl
 
 # Input
-HEADERS += painter.h cubo.h
-SOURCES += main.cpp painter.cpp cubo.cpp
+HEADERS += painter.h canvas.h cubo.h reguilete.h
+SOURCES += main.cpp painter.cpp canvas.cpp cubo.cpp reguilete.cpp
 QMAKE_CXXFLAGS += -std=c++11

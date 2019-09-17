@@ -1,6 +1,4 @@
 #include "painter.h"
-#include "cubo.h"
-
 
 Painter::Painter( QWidget *parent )
         : QWidget( parent )
@@ -11,21 +9,21 @@ Painter::Painter( QWidget *parent )
     quit->setFont( QFont( "Times", 14, QFont::Bold ) );
     connect( quit, SIGNAL(clicked()), qApp, SLOT(quit()) );
 
-    cubo = new Cubo( this );
-	connect( cubo, SIGNAL(changePos()), SLOT(newPosition( )) );
-	connect( cubo, SIGNAL(changeSize()), SLOT(newSize( )) );
+    canvas = new Canvas( this );
+	connect( canvas, SIGNAL(changePos()), SLOT(newPosition( )) );
+	connect( canvas, SIGNAL(changeSize()), SLOT(newSize( )) );
 
     myinit = new QPushButton( tr("Init") );
     myinit->setFont( QFont( "Times", 14, QFont::Bold ) );
-    connect( myinit, SIGNAL(clicked()), cubo, SLOT(initscreen()) );
+    connect( myinit, SIGNAL(clicked()), canvas, SLOT(initscreen()) );
 
     stop = new QPushButton( tr("Stop")  );
     stop->setFont( QFont( "Times", 14, QFont::Bold ) );
-    connect( stop, SIGNAL(clicked()), cubo, SLOT(stop()) );
+    connect( stop, SIGNAL(clicked()), canvas, SLOT(stop()) );
 
     // QGridLayout *grid = new QGridLayout( this, 1, 2, 5 ); //2x2, 5 pixel border
     QGridLayout *grid = new QGridLayout( ); //2x2, 5 pixel border
-    grid->addWidget( cubo, 0, 1 );
+    grid->addWidget( canvas, 0, 1 );
     grid->setColumnStretch( 1, 10 );
 
     messpos = new QLabel(  );
@@ -69,7 +67,7 @@ void Painter::newPosition( )
 {
 	int mx, my;
 
-	cubo->getPosition( &mx, &my );
+	canvas->getPosition( &mx, &my );
 
     QString s;
 	messpos->setText( s.sprintf("%d,%d", mx, my ) );
@@ -79,7 +77,7 @@ void Painter::newSize( )
 {
 	int mx, my;
 
-	cubo->getSize( &mx, &my );
+	canvas->getSize( &mx, &my );
 
     QString s;
 	messize->setText( s.sprintf("%d,%d", mx, my ) );
