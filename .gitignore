@@ -1,1 +1,6 @@
 .DS_store
+.qmake.stash
+*.o
+moc_*
+Makefile
+*.app/

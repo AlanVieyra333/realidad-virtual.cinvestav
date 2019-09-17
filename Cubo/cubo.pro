@@ -14,3 +14,4 @@ QT += opengl
 # Input
 HEADERS += painter.h cubo.h
 SOURCES += main.cpp painter.cpp cubo.cpp
+QMAKE_CXXFLAGS += -std=c++11
