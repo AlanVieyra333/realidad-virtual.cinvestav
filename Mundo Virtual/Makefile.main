@@ -1,0 +1,9 @@
+APP=mundo-virtual
+MAIN=main
+
+run: ${APP}.app
+	./${APP}.app/Contents/MacOS/${APP}
+${APP}.app: Makefile *.cpp *.h
+	make
+Makefile: ${MAIN}.pro
+	qmake ${MAIN}.pro
