@@ -1,7 +1,7 @@
-#include "reguilete.h"
+#include "rehilete.h"
 #include <GL/glu.h>
 
-Reguilete::Reguilete(float l)
+Rehilete::Rehilete(float l)
 {
 	l /= 2.0;
 	// X										Y									Z
@@ -10,7 +10,7 @@ Reguilete::Reguilete(float l)
   aspa[2][0] = l/-2.0; 	aspa[2][1] = l; 	aspa[2][2] = 0.0;
 }
 
-void Reguilete::dibuja_figura(float angle)
+void Rehilete::dibuja_figura(float angle)
 {
 	glRotatef(-45.0, 0.0, 1.0, 0.0);
 	glRotatef(35.26, 0.0, 0.0, 1.0);
@@ -23,7 +23,7 @@ void Reguilete::dibuja_figura(float angle)
 	dibuja_aspa(2 * 360.0 / 3.0);
 }
 
-void Reguilete::dibuja_aspa(float angle)
+void Rehilete::dibuja_aspa(float angle)
 {
 	glRotatef(angle, 0.0, 0.0, 1.0);
 

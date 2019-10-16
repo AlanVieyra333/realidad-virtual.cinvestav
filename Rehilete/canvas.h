@@ -5,7 +5,7 @@
 #include <QTimer>
 
 #include "cubo.h"
-#include "reguilete.h"
+#include "rehilete.h"
 
 class Canvas : public QGLWidget
 {
@@ -59,7 +59,7 @@ private:
 
 	/* Figures */
 	Cubo *cubo;
-	Reguilete *reguilete;
+	Rehilete *rehilete;
 };
 
 #endif // CANVAS_H

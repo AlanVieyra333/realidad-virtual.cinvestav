@@ -1,10 +1,10 @@
-#ifndef REGUILETE_H
-#define REGUILETE_H
+#ifndef REHILETE_H
+#define REHILETE_H
 
-class Reguilete
+class Rehilete
 {
 public:
-	Reguilete(float l);
+	Rehilete(float l);
 	void dibuja_figura(float angle);
 	void dibuja_aspa(float angle);
 
@@ -12,4 +12,4 @@ private:
 	float aspa[3][3];
 };
 
-#endif // REGUILETE_H
+#endif // REHILETE_H

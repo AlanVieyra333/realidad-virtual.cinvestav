@@ -19,7 +19,7 @@ Canvas::Canvas( QWidget *parent )
 
 	/* Initialize Figures */
 	cubo = new Cubo(1.0);
-	reguilete = new Reguilete(1.0);
+	rehilete = new Rehilete(1.0);
 }
 
 
@@ -116,7 +116,7 @@ void Canvas::paintGL(void)
 
 	/* Paint Figures */
 	cubo->dibuja_figura(angle);
-	reguilete->dibuja_figura(angle);
+	rehilete->dibuja_figura(angle);
 
 	glPopMatrix( );
 }
