@@ -12,7 +12,10 @@ class Painter: public QWidget
 	Q_OBJECT
 public:
     Painter( QWidget *parent=0 );
-
+		void addShape(Figura*);
+		void setEye(float, float, float);
+		void setCenterDegree(float);
+		
 private slots:
 	void newPosition( );
 	void newSize( );

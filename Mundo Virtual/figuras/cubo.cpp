@@ -5,15 +5,15 @@
 Cubo::Cubo(vector<float> v1, vector<float> v2, float color[]):Figura(color)
 {
 	// X										Y											Z
-	cubo[0][0] = v2[0];		cubo[0][1] = v1[1];		cubo[0][2] = v2[2];
-	cubo[1][0] = v2[0]; 	cubo[1][1] = v1[1]; 	cubo[1][2] = v1[2];
-  cubo[2][0] = v1[0]; 	cubo[2][1] = v1[1]; 	cubo[2][2] = v1[2];
-  cubo[3][0] = v1[0]; 	cubo[3][1] = v1[1]; 	cubo[3][2] = v2[2];
+	cubo[0][0] = v2[0]; 	cubo[0][1] = v2[1]; 	cubo[0][2] = v2[2];
+  cubo[1][0] = v2[0]; 	cubo[1][1] = v2[1]; 	cubo[1][2] = v1[2];
+  cubo[2][0] = v1[0]; 	cubo[2][1] = v2[1]; 	cubo[2][2] = v1[2];
+  cubo[3][0] = v1[0]; 	cubo[3][1] = v2[1]; 	cubo[3][2] = v2[2];
 	
-	cubo[4][0] = v2[0]; 	cubo[4][1] = v2[1]; 	cubo[4][2] = v2[2];
-  cubo[5][0] = v2[0]; 	cubo[5][1] = v2[1]; 	cubo[5][2] = v1[2];
-  cubo[6][0] = v1[0]; 	cubo[6][1] = v2[1]; 	cubo[6][2] = v1[2];
-  cubo[7][0] = v1[0]; 	cubo[7][1] = v2[1]; 	cubo[7][2] = v2[2];
+	cubo[4][0] = v2[0];		cubo[4][1] = v1[1];		cubo[4][2] = v2[2];
+	cubo[5][0] = v2[0]; 	cubo[5][1] = v1[1]; 	cubo[5][2] = v1[2];
+  cubo[6][0] = v1[0]; 	cubo[6][1] = v1[1]; 	cubo[6][2] = v1[2];
+  cubo[7][0] = v1[0]; 	cubo[7][1] = v1[1]; 	cubo[7][2] = v2[2];
 }
 
 void Cubo::dibuja_figura(float angle)
@@ -25,17 +25,23 @@ void Cubo::dibuja_figura(float angle)
 	glRotatef(45.00, 0.0, 1.0, 0.0);*/
 
 	float darkColor[3] = {
-		color[0] * (float) 0.726,
-		color[1] * (float) 0.726,
-		color[2] * (float) 0.726,
+		color[0] * (float) 0.65,
+		color[1] * (float) 0.65,
+		color[2] * (float) 0.65,
 	};
 
-	static float Mcolores[6][3] = {
+	float middColor[3] = {
+		color[0] * (float) 0.85,
+		color[1] * (float) 0.85,
+		color[2] * (float) 0.85,
+	};
+
+	float Mcolores[6][3] = {
 		{darkColor[0], darkColor[1], darkColor[2]},
 		{darkColor[0], darkColor[1], darkColor[2]},
+		{middColor[0], middColor[1], middColor[2]},
 		{color[0], color[1], color[2]},
-		{color[0], color[1], color[2]},
-		{color[0], color[1], color[2]},
+		{middColor[0], middColor[1], middColor[2]},
 		{color[0], color[1], color[2]},
 	};
 

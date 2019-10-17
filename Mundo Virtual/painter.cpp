@@ -88,3 +88,14 @@ void Painter::newSize( )
 	messize->setText( s.sprintf("%d,%d", mx, my ) );
 }
 
+void Painter::addShape(Figura *figura) {
+    canvas->addShape(figura);
+}
+
+void Painter::setEye(float x, float y, float z) {
+    canvas->setEye(x, y, z);
+}
+
+void Painter::setCenterDegree(float degree) {
+    canvas->setCenterDegree(degree);
+}

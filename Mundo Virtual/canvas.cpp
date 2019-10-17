@@ -1,10 +1,7 @@
 #include "canvas.h"
 #include <qpainter.h>
 #include <GL/glu.h>
-
-#include "figuras/cubo.h"
-#include "figuras/rehilete.h"
-#include "utils/color.h"
+#include <math.h>
 
 using namespace std;
 
@@ -22,11 +19,6 @@ Canvas::Canvas( QWidget *parent )
 	angle = 0;
 
 	setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
-
-	/*	Add shapes	*/
-	//figuras.push_back(new Cubo({0.0, 0.0, 0.0}, {15.0, 0.5, 8.0}, Color.Wine));
-	figuras.push_back(new Cubo({0.0, 0.0, 0.0}, {1.0, 1.0, 1.0}, Color.Wine));
-	figuras.push_back(new Rehilete(1.0));
 }
 
 void Canvas::timerDone( )
@@ -61,6 +53,40 @@ void Canvas::keyPressEvent ( QKeyEvent * e )
 			break;
 		case '-':  
 			signo = -1;
+			break;
+		case 16777234:	// Left
+			centerDegree -= 2.0;
+			updateGL( );
+			break;
+		case 16777236:	// Right
+			centerDegree += 2.0;
+			updateGL( );
+			break;
+		case 16777235:	// Up
+			eye[1] += 0.1;
+			center[1] += 0.1;
+			updateGL( );
+			break;
+		case 16777237:	// Down
+			eye[1] -= 0.1;
+			center[1] -= 0.1;
+			updateGL( );
+			break;
+		case 16777220:  // Intro - Walk
+			eye[0] = eye[0] + 0.1 * cos(centerDegree * M_PI / 180.0);
+			eye[2] = eye[2] + 0.1 * sin(centerDegree * M_PI / 180.0);
+
+			center[0] = center[0] + 0.1 * cos(centerDegree * M_PI / 180.0);
+			center[2] = center[2] + 0.1 * sin(centerDegree * M_PI / 180.0);
+			updateGL( );
+			break;
+		case 16777219:  // Delete - Walk reverse
+			eye[0] = eye[0] - 0.1 * cos(centerDegree * M_PI / 180.0);
+			eye[2] = eye[2] - 0.1 * sin(centerDegree * M_PI / 180.0);
+
+			center[0] = center[0] - 0.1 * cos(centerDegree * M_PI / 180.0);
+			center[2] = center[2] - 0.1 * sin(centerDegree * M_PI / 180.0);
+			updateGL( );
 			break;
 	}
 }
@@ -115,7 +141,15 @@ void Canvas::paintGL(void)
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glPushMatrix( );
-	gluLookAt( 0.0, 0.0, 10.0, 0.5, 0.5, 0.5, 0.0, 1.0, 0.0 ); 
+
+	center[0] = eye[0] + centerRadio * cos(centerDegree * M_PI / 180.0);
+	center[2] = eye[2] + centerRadio * sin(centerDegree * M_PI / 180.0);
+
+	gluLookAt(
+		eye[0], eye[1], eye[2],
+		center[0], center[1], center[2],
+		0.0, 1.0, 0.0
+	); 
 
 	glRotatef (yrot, 0.0, 1.0, 0.0);
 	glRotatef (xrot, 1.0, 0.0, 0.0);
@@ -124,4 +158,24 @@ void Canvas::paintGL(void)
 	for (auto&& figura : figuras) figura->dibuja_figura(angle);
 	
 	glPopMatrix( );
+}
+
+void Canvas::addShape(Figura *figura) {
+	figuras.push_back(figura);
+}
+
+void Canvas::setEye(float x, float y, float z) {
+	eye[0] = x;
+	eye[1] = y;
+	eye[2] = z;
+
+	eyeO[0] = x;
+	eyeO[1] = y;
+	eyeO[2] = z;
+}
+
+void Canvas::setCenterDegree(float degree) {
+  centerDegree = degree;
+
+	centerDegreeO = degree;
 }
