@@ -77,7 +77,7 @@ private:
 	vector<float> eyeO = {0.0, 1.0, 0.0};
 	vector<float> center = {0.0, 1.7, 0.0};
 	float centerDegreeO, centerDegree = 90.0;
-	float centerRadio = 10.0;
+	float centerRadio = 10;
 
 	/* Figures */
 	vector<Figura*> figuras;

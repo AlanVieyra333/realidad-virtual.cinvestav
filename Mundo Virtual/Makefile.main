@@ -7,3 +7,10 @@ ${APP}.app: Makefile *.cpp *.h
 	make
 Makefile: ${MAIN}.pro
 	qmake ${MAIN}.pro
+
+clean:
+	rm .qmake.stash
+	rm *.o
+	rm moc_*
+	rm Makefile
+	rm -r *.app/
