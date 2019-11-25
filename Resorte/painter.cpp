@@ -1,7 +1,6 @@
 #include "painter.h"
 #include "spring.h"
 
-
 Painter::Painter( QWidget *parent )
         : QWidget( parent )
 {
@@ -101,3 +100,10 @@ Painter::Painter( QWidget *parent )
 	setLayout( grid );
 }
 
+void Painter::setRy(short ry) {
+    spring->setRy(ry);
+}
+
+void Painter::applyForce() {
+    spring->applyForce();
+}

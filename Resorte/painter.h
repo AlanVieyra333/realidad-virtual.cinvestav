@@ -9,6 +9,8 @@ class Painter: public QWidget
 	Q_OBJECT
 public:
     Painter( QWidget *parent=0 );
+	void setRy(short ry);
+	void applyForce();
 
 private slots:
 	void doRemove(  ) {

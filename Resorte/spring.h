@@ -187,6 +187,8 @@ private:
 public:
 	void InicializaSistema( MRA2D *s );
 	MRA2D r;
+	void setRy(short ry);
+	void applyForce();
 };
 
 

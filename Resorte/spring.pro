@@ -6,9 +6,12 @@ TEMPLATE = app
 TARGET		= spring
 INCLUDEPATH += .
 INCLUDEPATH += "/usr/X11/include"
+INCLUDEPATH += "/Library/Frameworks"
 
 QT += opengl
 
 # Input
 HEADERS += painter.h spring.h
 SOURCES += main.cpp painter.cpp spring.cpp
+
+LIBS += -F/Library/Frameworks -framework 3DconnexionClient

@@ -7,7 +7,7 @@
 **/
 #include <qpainter.h>
 #include <ctype.h>
-#include <GL/glu.h>
+#include <OpenGL/glu.h>
 #include "spring.h"
 
 Spring::Spring( QWidget *parent )
@@ -152,7 +152,7 @@ void Spring::resizeGL( int w, int h )
 }
 
 void Spring::paintGL( void )
-{
+{	  
 	/** Clear all pixels **/
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -238,3 +238,19 @@ void Spring::unPasoDeformacion( void )
 	updateGL();
 }
 	
+void Spring::setRy(short ry) {
+	short left = -519;
+	short right = 519;
+	short total = right - left;
+	short interval = total/r.nodos;
+
+	short nodeC = ry / interval;
+	short node = (r.nodos / 2) - nodeC;
+	
+	if(r.nodo_actual != node)
+		poneNodo(node);
+}
+
+void Spring::applyForce() {
+    deforma();
+}
