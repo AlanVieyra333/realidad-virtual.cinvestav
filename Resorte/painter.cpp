@@ -58,19 +58,19 @@ Painter::Painter( QWidget *parent )
     textoNodo->setText("Nodo:");
     textoNodo->setAlignment( Qt::AlignCenter );
 
-    int max_nodos = (NODOS_BASE*4) - 3;
+
 	nodo = new QSpinBox( );
-	nodo->setRange( 0, max_nodos - 1 );
+	nodo->setRange( 0, MAX_NODES - 1 );
 	nodo->setSingleStep( 1 );
     connect( nodo, SIGNAL(valueChanged(int)), spring, SLOT( poneNodo(int) ) );
-	nodo->setValue( ((spring->r.nodos - 1) / 2) );
+	nodo->setValue( ((spring->mra2d.nodos - 1) / 2) );
 
     textoResolucion = new QLabel(  );
     textoResolucion->setText("Resolucion:");
     textoResolucion->setAlignment( Qt::AlignCenter );
 
 	resolucion = new QSpinBox( );
-	resolucion->setRange( 1, 3 );
+	resolucion->setRange( 1, RESOLUTION_LEVEL );
 	resolucion->setSingleStep( 1 );
     connect( resolucion, SIGNAL(valueChanged(int)), spring, SLOT( poneResolucion(int) ) );
     //resolucion->setValue( 1 );

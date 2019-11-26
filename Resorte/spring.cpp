@@ -20,14 +20,14 @@ Spring::Spring( QWidget *parent )
 
 	setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
-	r.nodos = NODOS_BASE;	// 7, 13, 25
-	delta = (NODOS_BASE - 1.0)/(r.nodos - 1.0);
-	InicializaSistema( &r );
+	mra2d.nodos = BASE_NODES;	// 7, 13, 25
+	delta = (BASE_NODES - 1.0)/(mra2d.nodos - 1.0);	// Distancia entre nodos
+	InicializaSistema( &mra2d );
 }
 
 Spring::~Spring( )
 {
-	free( r.s );
+	free( mra2d.s );
 }
 
 void Spring::InicializaSistema( MRA2D *s )
@@ -44,9 +44,8 @@ void Spring::InicializaSistema( MRA2D *s )
 
 	//s->nodo_actual = 0;
 
-	int max_nodos = (NODOS_BASE*4) - 3;
 	if(s->s == NULL)
-		s->s = (MRA *)malloc( max_nodos * sizeof(MRA) );
+		s->s = (MRA *)malloc( MAX_NODES * sizeof(MRA) );
 	if( s->s == NULL ) {
 		fprintf( stderr, "ERROR: no memory\n" );
 		exit(1);
@@ -104,15 +103,15 @@ void Spring::replica_fuerza_a_la_derecha( int n, double fx, double fy, double fz
 	int i = n + 1;
 	double d = 0;
 
-	while( i < r.nodos ){
+	while( i < mra2d.nodos ){
 		d += delta;
 		double fx_aux = fx / pow(2.0, d);
 		double fy_aux = fy / pow(2.0, d);
 		double fz_aux = fz / pow(2.0, d);
 		//printf("AUX: %lf %lf %lf\n", fx_aux, fy_aux, fz_aux);
-		r.s[i].k3x = ( fx_aux * r.dt * r.dt)/r.m;
-		r.s[i].k3y = ( fy_aux * r.dt * r.dt)/r.m;
-		r.s[i].k3z = ( fz_aux * r.dt * r.dt)/r.m;
+		mra2d.s[i].k3x = ( fx_aux * mra2d.dt * mra2d.dt)/mra2d.m;
+		mra2d.s[i].k3y = ( fy_aux * mra2d.dt * mra2d.dt)/mra2d.m;
+		mra2d.s[i].k3z = ( fz_aux * mra2d.dt * mra2d.dt)/mra2d.m;
 		i++;
 	}
 }
@@ -127,9 +126,9 @@ void Spring::replica_fuerza_a_la_izquierda( int n, double fx, double fy, double 
 		double fx_aux = fx / pow(2.0, d);
 		double fy_aux = fy / pow(2.0, d);
 		double fz_aux = fz / pow(2.0, d);
-		r.s[i].k3x = ( fx_aux * r.dt * r.dt)/r.m;
-		r.s[i].k3y = ( fy_aux * r.dt * r.dt)/r.m;
-		r.s[i].k3z = ( fz_aux * r.dt * r.dt)/r.m;
+		mra2d.s[i].k3x = ( fx_aux * mra2d.dt * mra2d.dt)/mra2d.m;
+		mra2d.s[i].k3y = ( fy_aux * mra2d.dt * mra2d.dt)/mra2d.m;
+		mra2d.s[i].k3z = ( fz_aux * mra2d.dt * mra2d.dt)/mra2d.m;
 		i--;
 	}
 }
@@ -191,16 +190,21 @@ void Spring::initializeGL( )
 
 }
 
+void Spring::muestraMalla(  )
+{
+	
+}
+
 void Spring::muestraResorte(  )
 {  
 	glBegin( GL_LINE_STRIP );
 		glColor3f( 1.0, 0.0, 0.0);
 
 		glVertex3d( -0.99, 0.0, 0.0 );
-		for( int i = 0; i<r.nodos; i++) { 
-			double x1 = r.s[i].x0 + r.s[i].x1;
-			double y1 = r.s[i].y0 + r.s[i].y1;
-			double z1 = r.s[i].z0 + r.s[i].z1;
+		for( int i = 0; i<mra2d.nodos; i++) { 
+			double x1 = mra2d.s[i].x0 + mra2d.s[i].x1;
+			double y1 = mra2d.s[i].y0 + mra2d.s[i].y1;
+			double z1 = mra2d.s[i].z0 + mra2d.s[i].z1;
 
 			glVertex3d( x1, y1, z1 );
 		}
@@ -208,9 +212,9 @@ void Spring::muestraResorte(  )
 	glEnd(  );
 	glBegin( GL_POINTS );
 		glColor3f( 0.0, 0.0, 1.0 );
-		double x1 = r.s[r.nodo_actual].x0 + r.s[r.nodo_actual].x1;
-		double y1 = r.s[r.nodo_actual].y0 + r.s[r.nodo_actual].y1;
-		double z1 = r.s[r.nodo_actual].z0 + r.s[r.nodo_actual].z1;
+		double x1 = mra2d.s[mra2d.nodo_actual].x0 + mra2d.s[mra2d.nodo_actual].x1;
+		double y1 = mra2d.s[mra2d.nodo_actual].y0 + mra2d.s[mra2d.nodo_actual].y1;
+		double z1 = mra2d.s[mra2d.nodo_actual].z0 + mra2d.s[mra2d.nodo_actual].z1;
 		glVertex3d( x1, y1, z1 );
 
 		glVertex3d( -0.99, 0.0, 0.01 );
@@ -221,18 +225,18 @@ void Spring::muestraResorte(  )
 
 void Spring::unPasoDeformacion( void )
 {
-	for( int i=0; i<r.nodos; i++ ) { 
-		r.s[i].x1 = r.k1 * r.s[i].x - r.k2 * r.s[i].x_1 + r.s[i].k3x;
-		r.s[i].x_1 = r.s[i].x;
-		r.s[i].x   = r.s[i].x1;
+	for( int i=0; i<mra2d.nodos; i++ ) { 
+		mra2d.s[i].x1 = mra2d.k1 * mra2d.s[i].x - mra2d.k2 * mra2d.s[i].x_1 + mra2d.s[i].k3x;
+		mra2d.s[i].x_1 = mra2d.s[i].x;
+		mra2d.s[i].x   = mra2d.s[i].x1;
 
-		r.s[i].y1 = r.k1 * r.s[i].y - r.k2 * r.s[i].y_1 + r.s[i].k3y;
-		r.s[i].y_1 = r.s[i].y;
-		r.s[i].y   = r.s[i].y1;
+		mra2d.s[i].y1 = mra2d.k1 * mra2d.s[i].y - mra2d.k2 * mra2d.s[i].y_1 + mra2d.s[i].k3y;
+		mra2d.s[i].y_1 = mra2d.s[i].y;
+		mra2d.s[i].y   = mra2d.s[i].y1;
 
-		r.s[i].z1 = r.k1 * r.s[i].z - r.k2 * r.s[i].z_1 + r.s[i].k3z;
-		r.s[i].z_1 = r.s[i].z;
-		r.s[i].z   = r.s[i].z1;
+		mra2d.s[i].z1 = mra2d.k1 * mra2d.s[i].z - mra2d.k2 * mra2d.s[i].z_1 + mra2d.s[i].k3z;
+		mra2d.s[i].z_1 = mra2d.s[i].z;
+		mra2d.s[i].z   = mra2d.s[i].z1;
 	}
 
 	updateGL();
@@ -242,12 +246,12 @@ void Spring::setRy(short ry) {
 	short left = -519;
 	short right = 519;
 	short total = right - left;
-	short interval = total/r.nodos;
+	short interval = total/mra2d.nodos;
 
 	short nodeC = ry / interval;
-	short node = (r.nodos / 2) - nodeC;
+	short node = (mra2d.nodos / 2) - nodeC;
 	
-	if(r.nodo_actual != node)
+	if(mra2d.nodo_actual != node)
 		poneNodo(node);
 }
 

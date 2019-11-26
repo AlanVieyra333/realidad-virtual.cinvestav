@@ -15,7 +15,9 @@
 #include <QDoubleSpinBox>
 #include <math.h>
 
-#define NODOS_BASE 7
+#define BASE_NODES 7
+#define RESOLUTION_LEVEL 3
+#define MAX_NODES (((BASE_NODES>>1) << RESOLUTION_LEVEL) + 1)		// 25  -> 7 nodos y resolucion 3
 
 class Spring: public QGLWidget
 {
@@ -26,6 +28,7 @@ public:
 
 	void createSpring( void );
 	void muestraResorte( void );
+	void muestraMalla( void );
 	QSizePolicy sizePolicy() const;
 	void replica_fuerza_a_la_izquierda( int i, double fx, double fy, double fz );
 	void replica_fuerza_a_la_derecha( int i, double fx, double fy, double fz );
@@ -33,10 +36,10 @@ public:
 public slots:
 	void poneResolucion(int val) {
 		int val_anterior;
-		if (r.nodos == NODOS_BASE)
+		if (mra2d.nodos == BASE_NODES)
 		{
 			val_anterior = 1;
-		} else if (r.nodos == (NODOS_BASE*2) - 1)
+		} else if (mra2d.nodos == (BASE_NODES*2) - 1)
 		{
 			val_anterior = 2;
 		} else {
@@ -46,36 +49,36 @@ public slots:
 		switch (val)
 		{
 		case 1:
-			r.nodos = NODOS_BASE;
+			mra2d.nodos = BASE_NODES;
 			if (val_anterior == 2)
-				r.nodo_actual = r.nodo_actual/2;
+				mra2d.nodo_actual = mra2d.nodo_actual/2;
 			else if (val_anterior == 3)
-				r.nodo_actual = r.nodo_actual/4;
+				mra2d.nodo_actual = mra2d.nodo_actual/4;
 			break;
 		case 2:
-			r.nodos = (NODOS_BASE*2) - 1;
+			mra2d.nodos = (BASE_NODES*2) - 1;
 			if (val_anterior == 1)
-				r.nodo_actual = r.nodo_actual*2;
+				mra2d.nodo_actual = mra2d.nodo_actual*2;
 			else if (val_anterior == 3)
-				r.nodo_actual = r.nodo_actual/2;
+				mra2d.nodo_actual = mra2d.nodo_actual/2;
 			break;
 		case 3:
-			r.nodos = (NODOS_BASE*4) - 3;
+			mra2d.nodos = (BASE_NODES*4) - 3;
 			if (val_anterior == 1)
-				r.nodo_actual = r.nodo_actual*4;
+				mra2d.nodo_actual = mra2d.nodo_actual*4;
 			else if (val_anterior == 2)
-				r.nodo_actual = r.nodo_actual*2;
+				mra2d.nodo_actual = mra2d.nodo_actual*2;
 			break;
 		default:
 			break;
 		}
 
-		delta = (NODOS_BASE - 1.0) / (r.nodos - 1.0);
-		InicializaSistema(&r);
+		delta = (BASE_NODES - 1.0) / (mra2d.nodos - 1.0);
+		InicializaSistema(&mra2d);
 	}
 	void poneNodo( int val ) {
-		if(val < r.nodos)
-			r.nodo_actual = val;
+		if(val < mra2d.nodos)
+			mra2d.nodo_actual = val;
 		updateGL();
 	}
 	void resetea( void ) {
@@ -83,13 +86,13 @@ public slots:
 		updateGL();
 	}
 	void deforma( void ) { 
-		//double fx = r.f * cos(r.theta);
-		//double fy = r.f * sin(r.theta);
-		double fx = cos(r.theta2) * cos(r.theta);
-		double fz = sin(r.theta2) * cos(r.theta); 
-		double fy = sin(r.theta);
+		//double fx = mra2d.f * cos(mra2d.theta);
+		//double fy = mra2d.f * sin(mra2d.theta);
+		double fx = cos(mra2d.theta2) * cos(mra2d.theta);
+		double fz = sin(mra2d.theta2) * cos(mra2d.theta); 
+		double fy = sin(mra2d.theta);
 
-		//printf("%lf %lf\n", r.theta, r.theta2);
+		//printf("%lf %lf\n", mra2d.theta, mra2d.theta2);
 		//printf("%lf %lf %lf\n", fx, fy, fz);
 		// Normalize
 		double length = sqrt(fx*fx + fy*fy + fz*fz);
@@ -98,38 +101,38 @@ public slots:
 		fz /= length;
 		//printf("%lf\n", length);
 		// Aplicar fuerza
-		fx *= r.f;
-		fy *= r.f;
-		fz *= r.f;
+		fx *= mra2d.f;
+		fy *= mra2d.f;
+		fz *= mra2d.f;
 		//printf("%lf %lf %lf\n", fx, fy, fz);
 
 		// Aplicamos la fuerza al nodo s.nodo
-		r.s[r.nodo_actual].k3x = ( fx * r.dt * r.dt)/r.m;
-		r.s[r.nodo_actual].k3y = ( fy * r.dt * r.dt)/r.m;
-		r.s[r.nodo_actual].k3z = ( fz * r.dt * r.dt)/r.m;
+		mra2d.s[mra2d.nodo_actual].k3x = ( fx * mra2d.dt * mra2d.dt)/mra2d.m;
+		mra2d.s[mra2d.nodo_actual].k3y = ( fy * mra2d.dt * mra2d.dt)/mra2d.m;
+		mra2d.s[mra2d.nodo_actual].k3z = ( fz * mra2d.dt * mra2d.dt)/mra2d.m;
 
 		// aplica_fuerza( s.nodo );
 		// se aplican inializando las variales k3 de cada resorte
-		replica_fuerza_a_la_derecha( r.nodo_actual, fx, fy, fz );
-		replica_fuerza_a_la_izquierda( r.nodo_actual, fx, fy, fz );
+		replica_fuerza_a_la_derecha( mra2d.nodo_actual, fx, fy, fz );
+		replica_fuerza_a_la_izquierda( mra2d.nodo_actual, fx, fy, fz );
 
 		timer->start( 33 );
 	}
 	void quitaFuerza( void ) { 
-		//r.f = 0.0;
-		for( int i=0; i<r.nodos; i++ ) {
-			r.s[i].k3x = r.s[i].k3y = r.s[i].k3z = 0.0;
+		//mra2d.f = 0.0;
+		for( int i=0; i<mra2d.nodos; i++ ) {
+			mra2d.s[i].k3x = mra2d.s[i].k3y = mra2d.s[i].k3z = 0.0;
 		}
 	}
 	void poneFuerza( double fuerza ) { 
-		r.f = fuerza;
-		// fprintf( stderr, "f = %lf\n", r.f );
+		mra2d.f = fuerza;
+		// fprintf( stderr, "f = %lf\n", mra2d.f );
 	}
 	void poneAngulo( double a ) { 
-		r.theta = a * M_PI/180.0;
+		mra2d.theta = a * M_PI/180.0;
 	}
 	void poneAngulo2( double a ) { 
-		r.theta2 = a * M_PI/180.0;
+		mra2d.theta2 = a * M_PI/180.0;
 	}
 	void unPasoDeformacion( void );
 
@@ -150,7 +153,7 @@ private:
 
 	// Una estructura para almacenar el estado de un nodo.
 	// Este es un sistema MRA con otro resorte extra solo con kint
-	typedef struct mra {
+	typedef struct _MRA {
 		double x0;
 		double x_1, x, x1;
 		double k3x;
@@ -168,7 +171,7 @@ private:
 	} MRA;
 
 	// Resorte en dos dimensiones
-	typedef struct mra2d {
+	typedef struct _MRA2D {
 		double k, m, b;
 		double dt;  // Delta i inicial: dt = 0.0333333333;
 		double k1, k2;
@@ -186,7 +189,7 @@ private:
 
 public:
 	void InicializaSistema( MRA2D *s );
-	MRA2D r;
+	MRA2D mra2d;
 	void setRy(short ry);
 	void applyForce();
 };
