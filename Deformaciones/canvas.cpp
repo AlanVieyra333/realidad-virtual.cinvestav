@@ -55,11 +55,11 @@ void Canvas::keyPressEvent ( QKeyEvent * e )
 			signo = -1;
 			break;
 		case 16777234:	// Left
-			centerDegree -= 2.0;
+			setCenterDegree(centerDegree - 2.0);
 			updateGL( );
 			break;
 		case 16777236:	// Right
-			centerDegree += 2.0;
+			setCenterDegree(centerDegree + 2.0);
 			updateGL( );
 			break;
 		case 16777235:	// Up
@@ -142,14 +142,14 @@ void Canvas::paintGL(void)
 
 	glPushMatrix( );
 
-	center[0] = eye[0] + centerRadio * cos(centerDegree * M_PI / 180.0);
-	center[2] = eye[2] + centerRadio * sin(centerDegree * M_PI / 180.0);
-
 	gluLookAt(
 		eye[0], eye[1], eye[2],
 		center[0], center[1], center[2],
 		0.0, 1.0, 0.0
 	); 
+
+	glLineWidth( 4.0 );
+	glPointSize( 8.0 );
 
 	glRotatef (yrot, 0.0, 1.0, 0.0);
 	glRotatef (xrot, 1.0, 0.0, 0.0);
@@ -174,8 +174,18 @@ void Canvas::setEye(float x, float y, float z) {
 	eyeO[2] = z;
 }
 
-void Canvas::setCenterDegree(float degree) {
-  centerDegree = degree;
+void Canvas::setCenter(float x, float y, float z) {
+	center[0] = x;
+	center[1] = y;
+	center[2] = z;
+}
 
-	centerDegreeO = degree;
+void Canvas::setCenterDegree(float degree) {
+    centerDegree = degree;
+
+	if(centerDegreeO == 0)
+		centerDegreeO = degree;
+
+	center[0] = eye[0] + centerRadio * cos(centerDegree * M_PI / 180.0);
+	center[2] = eye[2] + centerRadio * sin(centerDegree * M_PI / 180.0);
 }
