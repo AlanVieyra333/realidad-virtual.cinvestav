@@ -6,7 +6,8 @@ TEMPLATE = app
 TARGET		= mundo-virtual
 INCLUDEPATH += .
 # ¿Es necesario incluir este camino? :
-INCLUDEPATH += "/usr/X11/include"
+#INCLUDEPATH += "/usr/X11/include"
+#INCLUDEPATH += "/home/developer/bin/Qt5.13.2/5.13.2/gcc_64/bin"
 
 
 QT += opengl
@@ -15,3 +16,4 @@ QT += opengl
 HEADERS += painter.h canvas.h ./figuras/*.h ./utils/*.h
 SOURCES += main.cpp painter.cpp canvas.cpp ./figuras/*.cpp ./utils/*.cpp
 QMAKE_CXXFLAGS += -std=c++11
+QMAKE_LFLAGS += -lglut -lGLU -lGL

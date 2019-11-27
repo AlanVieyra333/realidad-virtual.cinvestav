@@ -1,4 +1,4 @@
-#include <OpenGL/glu.h>
+#include <GL/glu.h>
 
 #include "rehilete.h"
 

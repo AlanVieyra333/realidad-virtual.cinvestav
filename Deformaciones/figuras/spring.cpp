@@ -1,6 +1,6 @@
 #include "spring.h"
 #include "../utils/geom_func.h"
-#include <OpenGL/glu.h>
+#include <GL/glu.h>
 
 Spring::Spring(vector<float> v_start, vector<float> v_end)
 {

@@ -1,6 +1,6 @@
 #include "canvas.h"
 #include <qpainter.h>
-#include <OpenGL/glu.h>
+#include <GL/glu.h>
 #include <math.h>
 
 using namespace std;

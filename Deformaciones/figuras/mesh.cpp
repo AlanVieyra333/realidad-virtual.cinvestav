@@ -1,6 +1,6 @@
 #include "mesh.h"
 #include "../utils/geom_func.h"
-#include <OpenGL/glu.h>
+#include <GL/glu.h>
 #include <cmath>
 
 Mesh::Mesh(vector<float> v_start, vector<float> v_end)
