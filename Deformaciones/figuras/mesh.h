@@ -18,7 +18,7 @@ public:
 
 private:
 	vector<float> v_start, v_end;
-	Spring *springs[MAX_SPRINGS];
+	Spring *springs[2][MAX_SPRINGS];	// Vertical & Horizontal
 	int springs_len, current_spring;
 	float d_spring;
 };

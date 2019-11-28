@@ -1,10 +1,10 @@
-APP=mundo-virtual
+APP=deformaciones	#.app
 MAIN=main
 
-run: ${APP}.app
+run: ${APP}
 	./${APP}
 	#./${APP}.app/Contents/MacOS/${APP}
-${APP}.app: Makefile *.cpp *.h
+${APP}: Makefile ./**/*.cpp ./*.cpp ./**/*.h ./*.h
 	make
 Makefile: ${MAIN}.pro
 	qmake ${MAIN}.pro

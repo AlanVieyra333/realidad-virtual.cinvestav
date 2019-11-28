@@ -3,11 +3,10 @@
 ######################################################################
 
 TEMPLATE = app
-TARGET		= mundo-virtual
+TARGET		= deformaciones
 INCLUDEPATH += .
 # ¿Es necesario incluir este camino? :
 #INCLUDEPATH += "/usr/X11/include"
-#INCLUDEPATH += "/home/developer/bin/Qt5.13.2/5.13.2/gcc_64/bin"
 
 
 QT += opengl

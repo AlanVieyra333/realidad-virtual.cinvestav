@@ -1,6 +1,7 @@
 #include "spring.h"
 #include "../utils/geom_func.h"
 #include <GL/glu.h>
+#include <cstdio>
 
 Spring::Spring(vector<float> v_start, vector<float> v_end)
 {
@@ -12,10 +13,14 @@ Spring::Spring(vector<float> v_start, vector<float> v_end)
 	nodes_len = BASE_NODES;
 	current_node = (nodes_len / 2);
 	d_nodes = distance(v_start, v_end) / (nodes_len - 1);
+
+	//printf("%f\n", angle(v_start, v_end));
+	vector<float> v_dir = vector_sub(v_end, v_start);
+	float angle = vectors_angle(v_dir, {1,0,0});
 	for(int i = 0; i < nodes_len; i++) {
-		x = v_start[0] + i * d_nodes;
+		x = v_start[0] + i * d_nodes * cos(deg_to_rad(angle));
 		y = v_start[1];
-		z = v_start[2];
+		z = v_start[2] + i * d_nodes * sin(deg_to_rad(angle));
 
 		nodes[i][0] = x;
 		nodes[i][1] = y;

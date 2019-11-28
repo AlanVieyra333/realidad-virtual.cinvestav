@@ -55,21 +55,23 @@ void Canvas::keyPressEvent ( QKeyEvent * e )
 			signo = -1;
 			break;
 		case 16777234:	// Left
-			setCenterDegree(centerDegree - 2.0);
+			//setCenterDegree(centerDegree - 2.0);
+			eye[0] -= 0.1;
 			updateGL( );
 			break;
 		case 16777236:	// Right
-			setCenterDegree(centerDegree + 2.0);
+			//setCenterDegree(centerDegree + 2.0);
+			eye[0] += 0.1;
 			updateGL( );
 			break;
 		case 16777235:	// Up
 			eye[1] += 0.1;
-			center[1] += 0.1;
+			//center[1] += 0.1;
 			updateGL( );
 			break;
 		case 16777237:	// Down
 			eye[1] -= 0.1;
-			center[1] -= 0.1;
+			//center[1] -= 0.1;
 			updateGL( );
 			break;
 		case 16777220:  // Intro - Walk
