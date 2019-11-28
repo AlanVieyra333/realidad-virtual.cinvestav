@@ -1,6 +1,11 @@
-#include <GL/glu.h>
-
 #include "rehilete.h"
+
+#ifdef __APPLE__
+	#include <GLUT/glut.h>
+	#include <OpenGL/glu.h>
+#elif defined _WIN32 || defined _WIN64
+    #include <GL/glu.h>
+#endif 
 
 Rehilete::Rehilete(float l)
 {

@@ -11,6 +11,8 @@ float deg_to_rad(float deg);
 float vectors_angle(vector<float> v1, vector<float> v2);
 float point_product(vector<float> v1, vector<float> v2);
 float mod_vector(vector<float> v);
+vector<float> normalize_vector(vector<float> v);
 vector<float> vector_sub(vector<float> v1, vector<float> v2);
+vector<float> escalar_product(vector<float> v, float k);
 
 #endif // GEOM_FUNC_H

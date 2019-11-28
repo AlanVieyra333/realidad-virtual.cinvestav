@@ -1,7 +1,13 @@
 #include "spring.h"
 #include "../utils/geom_func.h"
-#include <GL/glu.h>
 #include <cstdio>
+
+#ifdef __APPLE__
+	#include <GLUT/glut.h>
+	#include <OpenGL/glu.h>
+#elif defined _WIN32 || defined _WIN64
+    #include <GL/glu.h>
+#endif 
 
 Spring::Spring(vector<float> v_start, vector<float> v_end)
 {
@@ -32,35 +38,26 @@ Spring::Spring(vector<float> v_start, vector<float> v_end)
 	}
 }
 
-void Spring::step_deformation() {
-	// for( int i=0; i<mra2d.nodos; i++ ) { 
-	// 	mra2d.s[i].x1 = mra2d.k1 * mra2d.s[i].x - mra2d.k2 * mra2d.s[i].x_1 + mra2d.s[i].k3x;
-	// 	mra2d.s[i].x_1 = mra2d.s[i].x;
-	// 	mra2d.s[i].x   = mra2d.s[i].x1;
-
-	// 	mra2d.s[i].y1 = mra2d.k1 * mra2d.s[i].y - mra2d.k2 * mra2d.s[i].y_1 + mra2d.s[i].k3y;
-	// 	mra2d.s[i].y_1 = mra2d.s[i].y;
-	// 	mra2d.s[i].y   = mra2d.s[i].y1;
-
-	// 	mra2d.s[i].z1 = mra2d.k1 * mra2d.s[i].z - mra2d.k2 * mra2d.s[i].z_1 + mra2d.s[i].k3z;
-	// 	mra2d.s[i].z_1 = mra2d.s[i].z;
-	// 	mra2d.s[i].z   = mra2d.s[i].z1;
-	// }
-}
-
 void Spring::dibuja_figura(float t)
 {
-	step_deformation();
 	float x, y, z;
+
+	if (t != 0) {
+		mra[current_node].apply_force();
+	} else {
+		mra[current_node].quit_force();
+	}
+
+	step_deformation();
 
 	glBegin(GL_LINE_STRIP);
 		glColor3f(1.0, 0.0, 0.0);
 
 		for (int i = 0; i < nodes_len; i++)
 		{
-			x = nodes[i][0] + mra[i].x0;
-			y = nodes[i][1] + mra[i].y0;
-			z = nodes[i][2] + mra[i].z0;
+			x = nodes[i][0] + mra[i].x;
+			y = nodes[i][1] + mra[i].y;
+			z = nodes[i][2] + mra[i].z;
 			
 			glVertex3d(x, y, z);
 		}
@@ -70,11 +67,17 @@ void Spring::dibuja_figura(float t)
 		
 		glVertex3d(nodes[0][0], nodes[0][1], nodes[0][2]);
 
-		x = nodes[current_node][0] + mra[current_node].x0;
-		y = nodes[current_node][1] + mra[current_node].y0;
-		z = nodes[current_node][2] + mra[current_node].z0;
+		x = nodes[current_node][0] + mra[current_node].x;
+		y = nodes[current_node][1] + mra[current_node].y;
+		z = nodes[current_node][2] + mra[current_node].z;
 		glVertex3d(x, y, z);
 
 		glVertex3d(nodes[nodes_len - 1][0], nodes[nodes_len - 1][1], nodes[nodes_len - 1][2]);
 	glEnd();
+}
+
+void Spring::step_deformation() {
+	for( int i=0; i < nodes_len; i++ ) { 
+		mra[i].step_deformation();
+	}
 }

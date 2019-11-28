@@ -1,8 +1,14 @@
 #include "mesh.h"
 #include "../utils/geom_func.h"
-#include <GL/glu.h>
 #include <cmath>
 #include <cstdio>
+
+#ifdef __APPLE__
+	#include <GLUT/glut.h>
+	#include <OpenGL/glu.h>
+#elif defined _WIN32 || defined _WIN64
+    #include <GL/glu.h>
+#endif 
 
 Mesh::Mesh(vector<float> v_start, vector<float> v_end)
 {

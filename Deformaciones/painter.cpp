@@ -1,5 +1,7 @@
 #include "painter.h"
 
+#define RESOLUTION_LEVEL 3
+
 Painter::Painter( QWidget *parent )
         : QWidget( parent )
 {
@@ -7,23 +9,64 @@ Painter::Painter( QWidget *parent )
 
     canvas = new Canvas( this );
 	connect( canvas, SIGNAL(changePos()), SLOT(newPosition( )) );
-	connect( canvas, SIGNAL(changeSize()), SLOT(newSize( )) );
 
     quit = new QPushButton( tr("Quit") );
     quit->setFont( QFont( "Times", 14, QFont::Bold ) );
     connect( quit, SIGNAL(clicked()), qApp, SLOT(quit()) );
 
-    myinit = new QPushButton( tr("Init") );
-    myinit->setFont( QFont( "Times", 14, QFont::Bold ) );
-    connect( myinit, SIGNAL(clicked()), canvas, SLOT(initscreen()) );
-
-    stop = new QPushButton( tr("Stop")  );
-    stop->setFont( QFont( "Times", 14, QFont::Bold ) );
-    connect( stop, SIGNAL(clicked()), canvas, SLOT(stop()) );
-
     reset = new QPushButton( tr("Reset")  );
     reset->setFont( QFont( "Times", 14, QFont::Bold ) );
     connect( reset, SIGNAL(clicked()), canvas, SLOT(reset()) );
+
+    myinit = new QPushButton( tr("Apply") );
+    myinit->setFont( QFont( "Times", 14, QFont::Bold ) );
+    connect( myinit, SIGNAL(clicked()), canvas, SLOT(initscreen()) );
+
+    stop = new QPushButton( tr("Remove")  );
+    stop->setFont( QFont( "Times", 14, QFont::Bold ) );
+    connect( stop, SIGNAL(clicked()), canvas, SLOT(stop()) );
+
+    forceText = new QLabel(  );
+    forceText->setText("Fuerza:");
+    forceText->setAlignment( Qt::AlignCenter );
+
+    forceValue = new QDoubleSpinBox( );
+	forceValue->setDecimals( 2 );
+	forceValue->setRange( 0.0, 0.2 );
+	forceValue->setSingleStep( 0.01 );
+    //connect( forceValue, SIGNAL(valueChanged(double)), spring, SLOT( poneFuerza(double) ) );
+	forceValue->setValue( 0.2 );
+	
+    textoAngulo = new QLabel(  );
+    textoAngulo->setText("Ángulo alpha");
+    textoAngulo->setAlignment( Qt::AlignCenter );
+
+    angulo = new QDoubleSpinBox( );
+	angulo->setDecimals( 1 );
+	angulo->setRange( -90.0, 90.0 );
+	angulo->setSingleStep( 1.0 );
+    //connect( angulo, SIGNAL(valueChanged(double)), spring, SLOT( poneAngulo2(double) ) );
+	angulo->setValue( 0.0 );
+
+    textoAngulo2 = new QLabel(  );
+    textoAngulo2->setText("Ángulo beta");
+    textoAngulo2->setAlignment( Qt::AlignCenter );
+
+    angulo2 = new QDoubleSpinBox( );
+	angulo2->setDecimals( 1 );
+	angulo2->setRange( -90.0, 90.0 );
+	angulo2->setSingleStep( 1.0 );
+    //connect( angulo2, SIGNAL(valueChanged(double)), spring, SLOT( poneAngulo(double) ) );
+	angulo2->setValue( 90.0 );
+
+    textoResolucion = new QLabel(  );
+    textoResolucion->setText("Resolucion:");
+    textoResolucion->setAlignment( Qt::AlignCenter );
+
+	resolucion = new QSpinBox( );
+	resolucion->setRange( 1, RESOLUTION_LEVEL );
+	resolucion->setSingleStep( 1 );
+    //connect( resolucion, SIGNAL(valueChanged(int)), spring, SLOT( poneResolucion(int) ) );
 
     // QGridLayout *grid = new QGridLayout( this, 1, 2, 5 ); //2x2, 5 pixel border
     QGridLayout *grid = new QGridLayout( ); //2x2, 5 pixel border
@@ -36,34 +79,30 @@ Painter::Painter( QWidget *parent )
     // messpos->setBackgroundColor( messpos->colorGroup().base() );
     messpos->setAlignment( Qt::AlignCenter );
 
-    messize = new QLabel(  );
-    messize->setMaximumHeight( 20 );
-    messize->setFrameStyle( QFrame::WinPanel | QFrame::Sunken );
-    // messize->setBackgroundColor( messpos->colorGroup().base() );
-    messize->setAlignment( Qt::AlignCenter );
-
     // Labels for the new displays...
     visorMouse = new QLabel(this );
     visorMouse->setMaximumHeight( 20 );
     visorMouse->setText("Mouse:");
     visorMouse->setAlignment( Qt::AlignCenter );
 
-    // Labels for the new displays...
-    visorTama = new QLabel(this );
-    visorTama->setMaximumHeight( 20 );
-    visorTama->setText("Tamaño:");
-    visorTama->setAlignment( Qt::AlignCenter );
-
 	QVBoxLayout *leftBox = new QVBoxLayout;
 	grid->addLayout( leftBox, 0, 0 );
 	leftBox->addWidget( quit );
-	leftBox->addWidget( myinit );
-	leftBox->addWidget( stop );
     leftBox->addWidget( reset );
+
+    leftBox->addWidget( forceText );
+	leftBox->addWidget( forceValue );
+	leftBox->addWidget( textoAngulo );
+	leftBox->addWidget( angulo );
+    leftBox->addWidget( textoAngulo2 );
+	leftBox->addWidget( angulo2 );
+    leftBox->addWidget( textoResolucion );
+	leftBox->addWidget( resolucion );
+
+    leftBox->addWidget( myinit );
+	leftBox->addWidget( stop );
 	leftBox->addWidget(visorMouse);
 	leftBox->addWidget( messpos );
-	leftBox->addWidget(visorTama);
-	leftBox->addWidget( messize );
 
 	setLayout( grid );
 }
@@ -76,16 +115,6 @@ void Painter::newPosition( )
 
     QString s;
 	messpos->setText( s.sprintf("%d,%d", mx, my ) );
-}
-
-void Painter::newSize( )
-{
-	int mx, my;
-
-	canvas->getSize( &mx, &my );
-
-    QString s;
-	messize->setText( s.sprintf("%d,%d", mx, my ) );
 }
 
 void Painter::addShape(Figura *figura) {

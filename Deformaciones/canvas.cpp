@@ -1,7 +1,13 @@
 #include "canvas.h"
 #include <qpainter.h>
-#include <GL/glu.h>
 #include <math.h>
+
+#ifdef __APPLE__
+	#include <GLUT/glut.h>
+	#include <OpenGL/glu.h>
+#elif defined _WIN32 || defined _WIN64
+    #include <GL/glu.h>
+#endif 
 
 using namespace std;
 
@@ -16,17 +22,14 @@ Canvas::Canvas( QWidget *parent )
 	connect ( timer, SIGNAL(timeout()), this, SLOT(timerDone()) );
 
 	xrot = yrot = 0;
-	angle = 0;
+	time = 0;
 
 	setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 }
 
 void Canvas::timerDone( )
 {
-	angle += 3.0*signo;
-
-	if ( angle >= 360.0 ) angle = 0.0;
-	if ( angle <= -360.0 ) angle = 0.0;
+	time += 1.0 / 30.0;
 	
 	updateGL( );
 }
@@ -157,7 +160,7 @@ void Canvas::paintGL(void)
 	glRotatef (xrot, 1.0, 0.0, 0.0);
 
 	/* Paint shapes */
-	for (auto&& figura : figuras) figura->dibuja_figura(angle);
+	for (auto&& figura : figuras) figura->dibuja_figura(time);
 	
 	glPopMatrix( );
 }

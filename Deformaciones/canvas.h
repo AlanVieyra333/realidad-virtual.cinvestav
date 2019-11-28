@@ -29,22 +29,23 @@ public slots:
 	void timerDone(void);
 	void initscreen(void)
 	{
-		timer->start(17);
-		// timer->start(500);
+		timer->start(1000 * 1 / 30);
 	}
 	void stop(void)
 	{
-		timer->stop();
+		time = 0;
 	}
 
 	void reset(void)
 	{
-		angle = 0;
+		time = 0;
 		xrot = yrot = 0;
 
 		eye[0] = eyeO[0]; eye[1] = eyeO[1]; eye[2] = eyeO[2];
 		centerDegree = centerDegreeO;
 		center[1] = 1.5;
+
+		timer->stop( );
 		updateGL( );
 	}
 
@@ -71,7 +72,7 @@ private:
 
 	float yrot, xrot; // Encene rotation
 
-	float angle;
+	float time;
 	int signo;
 	int xmouse, ymouse; // Mouse pointer coordinates
 	vector<float> eye = {0.0, 0.0, 0.0};

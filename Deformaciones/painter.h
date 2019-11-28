@@ -19,16 +19,14 @@ public:
 		
 private slots:
 	void newPosition( );
-	void newSize( );
 
 private:
 	
 	Canvas *canvas;
-	QLabel *messpos;
-	QLabel *messize;
-	QLabel *visorMouse;
-	QLabel *visorTama;
+	QLabel *forceText, *textoAngulo, *textoAngulo2, *textoResolucion, *messpos, *visorMouse;
 	QPushButton *quit, *myinit, *stop, *reset;
+	QDoubleSpinBox *forceValue, *angulo, *angulo2;
+	QSpinBox *resolucion;
 };
 
 #endif

@@ -15,4 +15,4 @@ QT += opengl
 HEADERS += painter.h canvas.h ./figuras/*.h ./utils/*.h
 SOURCES += main.cpp painter.cpp canvas.cpp ./figuras/*.cpp ./utils/*.cpp
 QMAKE_CXXFLAGS += -std=c++11
-QMAKE_LFLAGS += -lglut -lGLU -lGL
+#QMAKE_LFLAGS += -lglut -lGLU -lGL

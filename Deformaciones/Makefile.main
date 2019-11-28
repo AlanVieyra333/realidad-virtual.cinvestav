@@ -1,10 +1,11 @@
-APP=deformaciones	#.app
+APP=deformaciones
+EXT=.app
 MAIN=main
 
-run: ${APP}
-	./${APP}
-	#./${APP}.app/Contents/MacOS/${APP}
-${APP}: Makefile ./**/*.cpp ./*.cpp ./**/*.h ./*.h
+run: ${APP}${EXT}
+	#./${APP}
+	./${APP}${EXT}/Contents/MacOS/${APP}
+${APP}${EXT}: Makefile ./**/*.cpp ./*.cpp ./**/*.h ./*.h
 	make
 Makefile: ${MAIN}.pro
 	qmake ${MAIN}.pro

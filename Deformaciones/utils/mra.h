@@ -1,25 +1,35 @@
 #ifndef MRA_H
 #define MRA_H
 
+#include <vector>
+
+using namespace std;
+
 class MRA
 {
 private:
-    /* data */
+    float dt, k, m, b;
+    float k1, k2;
 public:
-    float x0 = 0;
-    float x_1, x, x1;
+    float alpha, beta;
+    vector<float> v_force;
+
+    float x_1, x;
     float k3x;
 
-    float y0 = 0;
-    float y_1, y, y1;
+    float y_1, y;
     float k3y;
 
-    float z0 = 0;
-    float z_1, z, z1;
+    float z_1, z;
     float k3z;
 
     MRA(/* args */);
     ~MRA();
+    void init();
+    void set_force(float f);
+    void apply_force();
+    void quit_force();
+    void step_deformation();
 };
 
 
