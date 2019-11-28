@@ -21,7 +21,7 @@ int main( int argc, char **argv )
 
     w.setGeometry( 100, 100, 1000, 540 );		//355 );
     addShapes(&w);
-    w.setEye(2.1, 5.2, 4.0);
+    w.setEye(2.1, 5.5, 4.0);
     w.setCenter(0.0, 0.0, 0.0);
     //w.setCenterDegree(-90);
 

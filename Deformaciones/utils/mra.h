@@ -30,6 +30,8 @@ public:
     void apply_force();
     void quit_force();
     void step_deformation();
+    void set_alpha(float alpha);
+    void set_beta(float beta);
 };
 
 

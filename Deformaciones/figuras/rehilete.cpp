@@ -3,7 +3,7 @@
 #ifdef __APPLE__
 	#include <GLUT/glut.h>
 	#include <OpenGL/glu.h>
-#elif defined _WIN32 || defined _WIN64
+#elif defined __linux__
     #include <GL/glu.h>
 #endif 
 

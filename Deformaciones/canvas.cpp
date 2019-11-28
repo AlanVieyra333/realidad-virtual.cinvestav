@@ -1,13 +1,14 @@
 #include "canvas.h"
 #include <qpainter.h>
 #include <math.h>
+#include "figuras/mesh.h"
 
 #ifdef __APPLE__
 	#include <GLUT/glut.h>
 	#include <OpenGL/glu.h>
-#elif defined _WIN32 || defined _WIN64
+#elif defined __linux__
     #include <GL/glu.h>
-#endif 
+#endif
 
 using namespace std;
 
@@ -29,8 +30,6 @@ Canvas::Canvas( QWidget *parent )
 
 void Canvas::timerDone( )
 {
-	time += 1.0 / 30.0;
-	
 	updateGL( );
 }
 
@@ -138,6 +137,8 @@ void Canvas::initializeGL( )
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity ();			 /* clear the matrix */
+
+	timer->start(1000 * 1 / 30);
 }
 
 void Canvas::paintGL(void)
@@ -193,4 +194,11 @@ void Canvas::setCenterDegree(float degree) {
 
 	center[0] = eye[0] + centerRadio * cos(centerDegree * M_PI / 180.0);
 	center[2] = eye[2] + centerRadio * sin(centerDegree * M_PI / 180.0);
+}
+
+/*	#########################################################	*/
+
+void Canvas::set_resolution(int val) {
+	Mesh *mesh = (Mesh*) figuras[0];
+	mesh->set_resolution(val);
 }

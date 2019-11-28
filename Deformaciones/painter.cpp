@@ -66,7 +66,7 @@ Painter::Painter( QWidget *parent )
 	resolucion = new QSpinBox( );
 	resolucion->setRange( 1, RESOLUTION_LEVEL );
 	resolucion->setSingleStep( 1 );
-    //connect( resolucion, SIGNAL(valueChanged(int)), spring, SLOT( poneResolucion(int) ) );
+    connect( resolucion, SIGNAL(valueChanged(int)), canvas, SLOT( set_resolution(int) ) );
 
     // QGridLayout *grid = new QGridLayout( this, 1, 2, 5 ); //2x2, 5 pixel border
     QGridLayout *grid = new QGridLayout( ); //2x2, 5 pixel border

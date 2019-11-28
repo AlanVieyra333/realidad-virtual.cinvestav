@@ -29,7 +29,7 @@ public slots:
 	void timerDone(void);
 	void initscreen(void)
 	{
-		timer->start(1000 * 1 / 30);
+		time = 1.0;
 	}
 	void stop(void)
 	{
@@ -53,6 +53,7 @@ public slots:
 	void setEye(float, float, float);
 	void setCenter(float, float, float);
 	void setCenterDegree(float);
+	void set_resolution(int val);
 
 signals:
 	void changePos();	// called when mouse is moved

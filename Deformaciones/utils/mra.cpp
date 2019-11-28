@@ -13,20 +13,16 @@ MRA::MRA()
 	k2 = 1.0 - dt*b/m;
     k3x = k3y = k3z = 0.0;
 
-    alpha = 0.0;
-    beta = 90.0;
+    set_alpha(0.0);
+    set_beta(90.0);
     set_force(0.2);
 
-    init();
-}
-
-MRA::~MRA(){}
-
-void MRA::init() {
     x_1 = x = 0.0;
     y_1 = y = 0.0;
     z_1 = z = 0.0;
 }
+
+MRA::~MRA(){}
 
 void MRA::set_force(float f) {
     v_force = {0,0,0};
@@ -64,4 +60,12 @@ void MRA::step_deformation() {
     z_next = k1 * z - k2 * z_1 + k3z;
     z_1 = z;
     z   = z_next;
+}
+
+void MRA::set_alpha(float alpha) {
+    this->alpha = deg_to_rad(alpha);
+}
+
+void MRA::set_beta(float beta) {
+    this->beta = deg_to_rad(beta);
 }
