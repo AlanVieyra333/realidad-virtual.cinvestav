@@ -12,7 +12,9 @@ using namespace std;
 class Canvas : public QGLWidget
 {
 	Q_OBJECT // must include this if you use Qt signals/slots
-			public : Canvas(QWidget *parent = 0);
+public:
+	Canvas(QWidget *parent = 0);
+	~Canvas();
 	QSizePolicy sizePolicy() const;
 	void getPosition(int *x, int *y)
 	{
@@ -27,35 +29,17 @@ class Canvas : public QGLWidget
 
 public slots:
 	void timerDone(void);
-	void initscreen(void)
-	{
-		time = 1.0;
-	}
-	void stop(void)
-	{
-		time = 0;
-	}
-
-	void reset(void)
-	{
-		time = 0;
-		xrot = yrot = 0;
-
-		eye[0] = eyeO[0]; eye[1] = eyeO[1]; eye[2] = eyeO[2];
-		centerDegree = centerDegreeO;
-		center[1] = 1.5;
-
-		timer->stop( );
-		updateGL( );
-	}
+	void initscreen(void);
+	void stop(void);
+	void reset(void);
 
 	void addShape(Figura*);
 	void setEye(float, float, float);
 	void setCenter(float, float, float);
 	void setCenterDegree(float);
-	void set_force(float val);
-	void set_angle_alpha(float val);
-	void set_angle_beta(float val);
+	void set_force(double val);
+	void set_angle_alpha(double val);
+	void set_angle_beta(double val);
 	void set_resolution(int val);
 
 signals:
@@ -76,17 +60,18 @@ private:
 
 	float yrot, xrot; // Encene rotation
 
-	float time;
 	int signo;
 	int xmouse, ymouse; // Mouse pointer coordinates
 	vector<float> eye = {0.0, 0.0, 0.0};
 	vector<float> eyeO = {0.0, 0.0, 0.0};
 	vector<float> center = {0.0, 0.0, 0.0};
+	vector<float> centerO = {0.0, 0.0, 0.0};
 	float centerDegreeO = -90, centerDegree = -90.0;	// Z negative
 	float centerRadio = 10;
 
 	/* Figures */
-	vector<Figura*> figuras;
+	vector<Figura*> shapes;
+	void* data_shape = NULL;
 };
 
 #endif // CANVAS_H

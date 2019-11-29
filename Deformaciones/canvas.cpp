@@ -1,7 +1,8 @@
 #include "canvas.h"
 #include <qpainter.h>
 #include <math.h>
-#include "figuras/mesh.h"
+
+#include "utils/data_shape.h"
 
 #ifdef __APPLE__
 	#include <GLUT/glut.h>
@@ -23,9 +24,21 @@ Canvas::Canvas( QWidget *parent )
 	connect ( timer, SIGNAL(timeout()), this, SLOT(timerDone()) );
 
 	xrot = yrot = 0;
-	time = 0;
 
 	setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+
+	// Init datatype of data shape.
+	dataMesh* data_mesh = (dataMesh*) malloc(sizeof(dataMesh));
+	data_mesh->apply_force = false;
+	data_mesh->force = 0.2;
+	data_mesh->alpha = 0.0;
+	data_mesh->beta = 90.0;
+	data_mesh->resolution = 1;
+	data_shape = (void *) data_mesh;
+}
+
+Canvas::~Canvas() {
+	free(data_shape);
 }
 
 void Canvas::timerDone( )
@@ -161,13 +174,13 @@ void Canvas::paintGL(void)
 	glRotatef (xrot, 1.0, 0.0, 0.0);
 
 	/* Paint shapes */
-	for (auto&& figura : figuras) figura->dibuja_figura(time);
+	for (auto&& shape : shapes) shape->dibuja_figura(data_shape);
 	
 	glPopMatrix( );
 }
 
-void Canvas::addShape(Figura *figura) {
-	figuras.push_back(figura);
+void Canvas::addShape(Figura *shape) {
+	shapes.push_back(shape);
 }
 
 void Canvas::setEye(float x, float y, float z) {
@@ -184,6 +197,10 @@ void Canvas::setCenter(float x, float y, float z) {
 	center[0] = x;
 	center[1] = y;
 	center[2] = z;
+
+	center[0] = x;
+	center[1] = y;
+	center[2] = z;
 }
 
 void Canvas::setCenterDegree(float degree) {
@@ -196,24 +213,40 @@ void Canvas::setCenterDegree(float degree) {
 	center[2] = eye[2] + centerRadio * sin(centerDegree * M_PI / 180.0);
 }
 
+void Canvas::initscreen(void) {
+	((dataMesh*) data_shape)->apply_force = true;
+}
+
+void Canvas::stop(void) {
+	((dataMesh*) data_shape)->apply_force = false;
+}
+
+void Canvas::reset(void) {
+	((dataMesh*) data_shape)->apply_force = false;
+	xrot = yrot = 0;
+
+	eye[0] = eyeO[0]; eye[1] = eyeO[1]; eye[2] = eyeO[2];
+	centerDegree = centerDegreeO;
+	center[0] = centerO[0]; center[1] = centerO[1]; center[2] = centerO[2];
+
+	//timer->stop( );
+	updateGL( );
+}
+
 /*	#########################################################	*/
 
 void Canvas::set_resolution(int val) {
-	Mesh *mesh = (Mesh*) figuras[0];
-	mesh->set_resolution(val);
+	((dataMesh*) data_shape)->resolution = val;
 }
 
-void Canvas::set_force(float val) {
-	Mesh *mesh = (Mesh*) figuras[0];
-	mesh->set_force(val);
+void Canvas::set_force(double val) {
+	((dataMesh*) data_shape)->force = val;
 }
 
-void Canvas::set_angle_alpha(float val) {
-	Mesh *mesh = (Mesh*) figuras[0];
-	mesh->set_angle_alpha(val);
+void Canvas::set_angle_alpha(double val) {
+	((dataMesh*) data_shape)->alpha = val;
 }
 
-void Canvas::set_angle_beta(float val) {
-	Mesh *mesh = (Mesh*) figuras[0];
-	mesh->set_angle_beta(val);
+void Canvas::set_angle_beta(double val) {
+	((dataMesh*) data_shape)->beta = val;
 }

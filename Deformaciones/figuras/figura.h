@@ -18,7 +18,7 @@ public:
 		this->color[2] = color[2];
 	}
 
-	virtual void dibuja_figura(float t) = 0;
+	virtual void dibuja_figura(void* data) = 0;
 };
 
 #endif // FIGURA_H

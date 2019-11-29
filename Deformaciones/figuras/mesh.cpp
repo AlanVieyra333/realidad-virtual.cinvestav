@@ -1,5 +1,6 @@
 #include "mesh.h"
 #include "../utils/geom_func.h"
+#include "../utils/data_shape.h"
 #include <cmath>
 #include <cstdio>
 
@@ -16,15 +17,22 @@ Mesh::Mesh(vector<float> v_start, vector<float> v_end)
 	this->v_end = v_end;
 
 	springs_len = BASE_SPRINGS;
-	node_force_x = (springs_len / 2);
-	node_force_y = (springs_len / 2);
 
 	force = 0.2;
+	alpha = 0.0;
+	beta = 90.0;
+	resolution = 1;
+	main_node_x = (springs_len / 2);
+	main_node_y = (springs_len / 2);
 
-	init();
+	init_springs_position();
 }
 
-void Mesh::init() {
+/**
+ * Calcula la distancia entre cuerdas.
+ * Inicializa la pocision de c/cuerda (v_estart, v_end).
+*/
+void Mesh::init_springs_position() {
 	vector<float> v1, v2;
 
 	d_spring = distance(v_start, {v_start[0], v_start[1], v_end[0]}) / (springs_len - 1);
@@ -48,13 +56,22 @@ void Mesh::init() {
 	}
 }
 
-void Mesh::dibuja_figura(float t)
-{	
+void Mesh::dibuja_figura(void* data)
+{
+	dataMesh* data_mesh = (dataMesh*) data;
+
+	if(data_mesh->resolution != this->resolution) set_resolution(data_mesh->resolution);
+	if(data_mesh->alpha != this->alpha) set_angle_alpha(data_mesh->alpha);
+	if(data_mesh->beta != this->beta) set_angle_beta(data_mesh->beta);
+	if(data_mesh->force != this->force) set_force(data_mesh->force);
+
+	//printf("%f %f %f %d\n", data_mesh->force, data_mesh->alpha, data_mesh->beta, data_mesh->resolution);
+
 	// Especificar el nodo principal de cada resorte.
     for (int i = 0; i < springs_len; i++)
     {
-		springs[0][i]->set_node_force(node_force_x);
-		springs[1][i]->set_node_force(node_force_y);
+		springs[0][i]->set_main_node(main_node_x);
+		springs[1][i]->set_main_node(main_node_y);
     }
 
 	replicate_force();
@@ -62,19 +79,19 @@ void Mesh::dibuja_figura(float t)
     // Dibuja resortes
     for (int i = 0; i < springs_len; i++)
     {
-		springs[0][i]->dibuja_figura(t);
-		springs[1][i]->dibuja_figura(t);
+		springs[0][i]->dibuja_figura(data);
+		springs[1][i]->dibuja_figura(data);
     }
 }
 
-void Mesh::set_node_force(int node_force_x, int node_force_y) {
-	this->node_force_x = node_force_x;
-	this->node_force_y = node_force_y;
+void Mesh::set_main_node(int main_node_x, int main_node_y) {
+	this->main_node_x = main_node_x;
+	this->main_node_y = main_node_y;
 }
 
 void Mesh::set_force(float force) {
 	this->force = force;
-	replicate_force();
+	//replicate_force();
 }
 
 void Mesh::replicate_force() {
@@ -86,20 +103,20 @@ void Mesh::replicate_force() {
 		double f = force / pow(2.0, d);
 
 		// Arriba
-		if (node_force_y - i >= 0)
-			springs[0][node_force_y - i]->set_force(f);
+		if (main_node_y - i >= 0)
+			springs[0][main_node_y - i]->set_force(f);
 		
 		// Abajo
-		if (node_force_y + i < springs_len)
-			springs[0][node_force_y + i]->set_force(f);
+		if (main_node_y + i < springs_len)
+			springs[0][main_node_y + i]->set_force(f);
 
 		// Izquierda
-		if (node_force_x - i >= 0)
-			springs[1][node_force_x - i]->set_force(f);
+		if (main_node_x - i >= 0)
+			springs[1][main_node_x - i]->set_force(f);
 
 		// Derecha
-		if (node_force_x + i < springs_len)
-			springs[1][node_force_x + i]->set_force(f);
+		if (main_node_x + i < springs_len)
+			springs[1][main_node_x + i]->set_force(f);
 
 		d += delta;
     }
@@ -108,70 +125,61 @@ void Mesh::replicate_force() {
 /*	#########################################################	*/
 
 void Mesh::set_angle_alpha(float val){
+	this->alpha = val;
     for (int i = 0; i < springs_len; i++)
     {
-		springs[0][i]->set_angle_alpha(val);
-		springs[1][i]->set_angle_alpha(val);
+		springs[0][i]->set_angle_alpha(this->alpha);
+		springs[1][i]->set_angle_alpha(this->alpha);
     }
 }
 
 void Mesh::set_angle_beta(float val){
+	this->beta = val;
 	for (int i = 0; i < springs_len; i++)
     {
-		springs[0][i]->set_angle_beta(val);
-		springs[1][i]->set_angle_beta(val);
+		springs[0][i]->set_angle_beta(this->beta);
+		springs[1][i]->set_angle_beta(this->beta);
     }
 }
 
+/**
+ * Recalcula el numero de cuerdas, el nodo principal (x,y), .
+*/
 void Mesh::set_resolution(int val) {
-	int val_anterior;
-	if (springs_len == BASE_SPRINGS)
-	{
-		val_anterior = 1;
-	} else if (springs_len == (BASE_SPRINGS*2) - 1)
-	{
-		val_anterior = 2;
-	} else {
-		val_anterior = 3;
-	}
+	int prev_resolution = this->resolution;
+	this->resolution = val;
 	
-	switch (val)
+	switch (this->resolution)
 	{
 	case 1:
 		springs_len = BASE_SPRINGS;
-		if (val_anterior == 2){
-			node_force_x = node_force_x/2;
-			node_force_y = node_force_y/2;
-		} else if (val_anterior == 3){
-			node_force_x = node_force_x/4;
-			node_force_y = node_force_y/4;
+		if (prev_resolution == 2){
+			set_main_node(main_node_x/2, main_node_y/2);
+		} else if (prev_resolution == 3){
+			set_main_node(main_node_x/4, main_node_y/4);
 		}
 		break;
 	case 2:
 		springs_len = (BASE_SPRINGS*2) - 1;
-		if (val_anterior == 1){
-			node_force_x = node_force_x*2;
-			node_force_y = node_force_y*2;
-		} else if (val_anterior == 3){
-			node_force_x = node_force_x/2;
-			node_force_y = node_force_y/2;
+		if (prev_resolution == 1){
+			set_main_node(main_node_x*2, main_node_y*2);
+		} else if (prev_resolution == 3){
+			set_main_node(main_node_x/2, main_node_y/2);
 		}
 		break;
 	case 3:
 		springs_len = (BASE_SPRINGS*4) - 3;
-		if (val_anterior == 1){
-			node_force_x = node_force_x*4;
-			node_force_y = node_force_y*4;
-		} else if (val_anterior == 2){
-			node_force_x = node_force_x*2;
-			node_force_y = node_force_y*2;
+		if (prev_resolution == 1){
+			set_main_node(main_node_x*4, main_node_y*4);
+		} else if (prev_resolution == 2){
+			set_main_node(main_node_x*2, main_node_y*2);
 		}
 		break;
 	default:
 		break;
 	}
 
-	init();
+	init_springs_position();
 
 	// Nueva resolucion de resortes
     for (int i = 0; i < springs_len; i++)
@@ -179,4 +187,8 @@ void Mesh::set_resolution(int val) {
 		springs[0][i]->set_resolution(val);
 		springs[1][i]->set_resolution(val);
     }
+
+	set_angle_alpha(this->alpha);
+	set_angle_beta(this->beta);
+	set_force(this->force);
 }

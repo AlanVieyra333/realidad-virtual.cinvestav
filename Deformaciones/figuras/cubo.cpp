@@ -40,7 +40,7 @@ Cubo::Cubo(vector<float> v1, vector<float> v2, float color[3]):Figura(color)
 	Mcolores[5][0] = color[0];			Mcolores[5][1] = color[1];			Mcolores[5][2] = color[2];
 }
 
-void Cubo::dibuja_figura(float angle)
+void Cubo::dibuja_figura(void* data)
 {
 	// Rotar sobre la diagonal principal.
 	/*glRotatef(-45.00, 0.0, 1.0, 0.0);

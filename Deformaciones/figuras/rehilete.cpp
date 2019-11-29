@@ -1,4 +1,5 @@
 #include "rehilete.h"
+#include "../utils/data_shape.h"
 
 #ifdef __APPLE__
 	#include <GLUT/glut.h>
@@ -16,13 +17,14 @@ Rehilete::Rehilete(float l)
   aspa[2][0] = l/-2.0; 	aspa[2][1] = l; 	aspa[2][2] = 0.0;
 }
 
-void Rehilete::dibuja_figura(float angle)
+void Rehilete::dibuja_figura(void* data)
 {
+	dataRehilete* data_rehilete = (dataRehilete*) data;
 	glRotatef(-45.0, 0.0, 1.0, 0.0);
 	glRotatef(35.26, 0.0, 0.0, 1.0);
 	glTranslated(1.73,0,0);
 	glRotatef(90.00, 0.0, 1.0, 0.0);
-	glRotatef(angle, 0.0, 0.0, 1.0);
+	glRotatef(data_rehilete->angle, 0.0, 0.0, 1.0);
 
 	dibuja_aspa(0.0);
 	dibuja_aspa(360.0 / 3.0);

@@ -16,8 +16,8 @@ class Spring : public Figura
 {
 public:
 	Spring(vector<float> v1, vector<float>  v2);
-	void dibuja_figura(float t);
-	void set_node_force(int node);
+	void dibuja_figura(void* data);
+	void set_main_node(int node);
 	void set_force(float force);
 	void set_angle_alpha(float alpha);
     void set_angle_beta(float beta);
@@ -27,10 +27,10 @@ private:
 	vector<float>  v_start, v_end;
 	float nodes[MAX_NODES][3];
 	MRA mra[MAX_NODES];
-	int nodes_len, node_force;
+	int nodes_len, main_node;
 	float d_nodes;
 
-	void init();
+	void init_nodes_position();
 	void step_deformation();
 	void apply_force();
 	void quit_force();

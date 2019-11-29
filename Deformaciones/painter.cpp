@@ -34,8 +34,8 @@ Painter::Painter( QWidget *parent )
 	forceValue->setDecimals( 2 );
 	forceValue->setRange( 0.0, 0.2 );
 	forceValue->setSingleStep( 0.01 );
+    forceValue->setValue( 0.2 );
     connect( forceValue, SIGNAL(valueChanged(double)), canvas, SLOT( set_force(double) ) );
-	forceValue->setValue( 0.2 );
 	
     textoAngulo = new QLabel(  );
     textoAngulo->setText("Ángulo alpha");
@@ -45,8 +45,8 @@ Painter::Painter( QWidget *parent )
 	angulo->setDecimals( 1 );
 	angulo->setRange( -90.0, 90.0 );
 	angulo->setSingleStep( 1.0 );
+    angulo->setValue( 0.0 );
     connect( angulo, SIGNAL(valueChanged(double)), canvas, SLOT( set_angle_alpha(double) ) );
-	angulo->setValue( 0.0 );
 
     textoAngulo2 = new QLabel(  );
     textoAngulo2->setText("Ángulo beta");
@@ -56,8 +56,8 @@ Painter::Painter( QWidget *parent )
 	angulo2->setDecimals( 1 );
 	angulo2->setRange( -90.0, 90.0 );
 	angulo2->setSingleStep( 1.0 );
+    angulo2->setValue( 90.0 );
     connect( angulo2, SIGNAL(valueChanged(double)), canvas, SLOT( set_angle_beta(double) ) );
-	angulo2->setValue( 90.0 );
 
     textoResolucion = new QLabel(  );
     textoResolucion->setText("Resolucion:");

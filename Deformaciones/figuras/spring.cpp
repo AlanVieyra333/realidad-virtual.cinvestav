@@ -1,5 +1,6 @@
 #include "spring.h"
 #include "../utils/geom_func.h"
+#include "../utils/data_shape.h"
 #include <cstdio>
 
 #ifdef __APPLE__
@@ -15,12 +16,17 @@ Spring::Spring(vector<float> v_start, vector<float> v_end)
 	this->v_end = v_end;
 
 	nodes_len = BASE_NODES;
-	node_force = (nodes_len / 2);
+	main_node = (nodes_len / 2);
 
-	init();
+	init_nodes_position();
 }
 
-void Spring::init() {
+/**
+ * Calcula la distancia entre los nodos.
+ * Calcula la dirección donde se pondran los nodos.
+ * Calcula la posición x,y,z base (inicial, antes de aplicar la fuerza), de c/nodo.
+*/
+void Spring::init_nodes_position() {
 	float x,y,z;
 	d_nodes = distance(v_start, v_end) / (nodes_len - 1);
 
@@ -37,11 +43,12 @@ void Spring::init() {
 	}
 }
 
-void Spring::dibuja_figura(float t)
+void Spring::dibuja_figura(void* data)
 {
 	float x, y, z;
+	dataMesh* data_mesh = (dataMesh*) data;
 
-	if (t != 0) {
+	if (data_mesh->apply_force) {
 		replicate_force();
 		apply_force();
 	} else {
@@ -67,9 +74,9 @@ void Spring::dibuja_figura(float t)
 		
 		//glVertex3d(nodes[0][0], nodes[0][1], nodes[0][2]);
 
-		x = nodes[node_force][0] + mra[node_force].x;
-		y = nodes[node_force][1] + mra[node_force].y;
-		z = nodes[node_force][2] + mra[node_force].z;
+		x = nodes[main_node][0] + mra[main_node].x;
+		y = nodes[main_node][1] + mra[main_node].y;
+		z = nodes[main_node][2] + mra[main_node].z;
 		glVertex3d(x, y, z);
 
 		//glVertex3d(nodes[nodes_len - 1][0], nodes[nodes_len - 1][1], nodes[nodes_len - 1][2]);
@@ -82,12 +89,12 @@ void Spring::step_deformation() {
 	}
 }
 
-void Spring::set_node_force(int node) {
-	node_force = node;
+void Spring::set_main_node(int node) {
+	main_node = node;
 }
 
 void Spring::set_force(float force) {
-	mra[node_force].set_force(force);
+	mra[main_node].set_force(force);
 }
 
 void Spring::apply_force() {
@@ -103,19 +110,19 @@ void Spring::quit_force() {
 void Spring::replicate_force() {
 	float delta = (BASE_NODES - 1.0)/(nodes_len - 1.0);	// Distancia entre resortes
 	float d = 0.0;
-	float force = mod_vector(mra[node_force].v_force);
+	float force = mod_vector(mra[main_node].v_force);
 
 	for (int i = 0; i <= nodes_len; i++)
     {
 		float f = force / pow(2.0, d);
 
 		// Izquierda/Arriba
-		if (node_force - i >= 0)
-			mra[node_force - i].set_force(f);
+		if (main_node - i >= 0)
+			mra[main_node - i].set_force(f);
 
 		// Derecha/Abajo
-		if (node_force + i < nodes_len)
-			mra[node_force + i].set_force(f);
+		if (main_node + i < nodes_len)
+			mra[main_node + i].set_force(f);
 
 		d += delta;
     }
@@ -151,28 +158,29 @@ void Spring::set_resolution(int val) {
 	{
 	case 1:
 		nodes_len = BASE_NODES;
+		init_nodes_position();
 		if (val_anterior == 2)
-			node_force = node_force/2;
+			main_node = main_node/2;
 		else if (val_anterior == 3)
-			node_force = node_force/4;
+			main_node = main_node/4;
 		break;
 	case 2:
 		nodes_len = (BASE_NODES*2) - 1;
+		init_nodes_position();
 		if (val_anterior == 1)
-			node_force = node_force*2;
+			main_node = main_node*2;
 		else if (val_anterior == 3)
-			node_force = node_force/2;
+			main_node = main_node/2;
 		break;
 	case 3:
 		nodes_len = (BASE_NODES*4) - 3;
+		init_nodes_position();
 		if (val_anterior == 1)
-			node_force = node_force*4;
+			main_node = main_node*4;
 		else if (val_anterior == 2)
-			node_force = node_force*2;
+			main_node = main_node*2;
 		break;
 	default:
 		break;
 	}
-
-	init();
 }

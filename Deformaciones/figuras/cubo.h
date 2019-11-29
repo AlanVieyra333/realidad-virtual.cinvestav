@@ -10,7 +10,7 @@ class Cubo : public Figura
 {
 public:
 	Cubo(vector<float> v1, vector<float> v2, float color[]);
-	void dibuja_figura(float angle);
+	void dibuja_figura(void* data);
 
 private:
 	float cubo[8][3];				// Vectores (x,y,z) para cada vértice.

@@ -14,8 +14,8 @@ class Mesh : public Figura
 {
 public:
 	Mesh(vector<float> v_start, vector<float>  v_end);
-	void dibuja_figura(float t);
-	void set_node_force(int node_force_x, int node_force_y);
+	void dibuja_figura(void* data);
+	void set_main_node(int main_node_x, int main_node_y);
 	void set_force(float force);
 	void set_angle_alpha(float val);
 	void set_angle_beta(float val);
@@ -26,10 +26,11 @@ private:
 	Spring *springs[2][MAX_SPRINGS];	// Vertical & Horizontal
 	int springs_len;
 	float d_spring;
-	int node_force_x, node_force_y;
-	float force;
+	int main_node_x, main_node_y;
+	float force, alpha, beta;
+	int resolution;
 
-	void init();
+	void init_springs_position();
 	void replicate_force();
 };
 
