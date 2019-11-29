@@ -7,6 +7,8 @@ typedef struct _dataMesh {
   float alpha;
   float beta;
   int resolution;
+  int mouse3d_x;
+  int mouse3d_y;
 } dataMesh;
 
 typedef struct _dataRehilete {

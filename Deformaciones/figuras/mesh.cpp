@@ -64,6 +64,7 @@ void Mesh::dibuja_figura(void* data)
 	if(data_mesh->alpha != this->alpha) set_angle_alpha(data_mesh->alpha);
 	if(data_mesh->beta != this->beta) set_angle_beta(data_mesh->beta);
 	if(data_mesh->force != this->force) set_force(data_mesh->force);
+	set_3dMouse(data_mesh->mouse3d_x, data_mesh->mouse3d_y);
 
 	//printf("%f %f %f %d\n", data_mesh->force, data_mesh->alpha, data_mesh->beta, data_mesh->resolution);
 
@@ -191,4 +192,25 @@ void Mesh::set_resolution(int val) {
 	set_angle_alpha(this->alpha);
 	set_angle_beta(this->beta);
 	set_force(this->force);
+}
+
+void Mesh::set_3dMouse(short rx, short ry) {
+	short min = -525;
+	short max = 525;
+	short total = max - min;
+	short interval = total/springs_len;
+
+	short nodes_move = rx / interval;
+	short node_x = (springs_len / 2) - nodes_move;
+
+	nodes_move = ry / interval;
+	short node_y = (springs_len / 2) - nodes_move;
+
+	//printf("mouse: %d %d\n", rx, ry);
+	//printf("nodes: %d %d\n", node_x, node_y);
+	
+	if(main_node_x != node_x || main_node_y != node_y){
+		main_node_x = node_x;
+		main_node_y = node_y;
+	}
 }

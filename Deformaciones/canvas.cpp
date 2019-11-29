@@ -34,6 +34,8 @@ Canvas::Canvas( QWidget *parent )
 	data_mesh->alpha = 0.0;
 	data_mesh->beta = 90.0;
 	data_mesh->resolution = 1;
+	data_mesh->mouse3d_x = 0;
+	data_mesh->mouse3d_y = 0;
 	data_shape = (void *) data_mesh;
 }
 
@@ -249,4 +251,9 @@ void Canvas::set_angle_alpha(double val) {
 
 void Canvas::set_angle_beta(double val) {
 	((dataMesh*) data_shape)->beta = val;
+}
+
+void Canvas::set_3dMouse(short rx, short ry) {
+	((dataMesh*) data_shape)->mouse3d_x = rx;
+	((dataMesh*) data_shape)->mouse3d_y = ry;
 }

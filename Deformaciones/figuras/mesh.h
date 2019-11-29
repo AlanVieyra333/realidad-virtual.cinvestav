@@ -21,6 +21,8 @@ public:
 	void set_angle_beta(float val);
 	void set_resolution(int val);
 
+	void set_3dMouse(short rx, short ry);
+
 private:
 	vector<float> v_start, v_end;
 	Spring *springs[2][MAX_SPRINGS];	// Vertical & Horizontal

@@ -41,6 +41,7 @@ public slots:
 	void set_angle_alpha(double val);
 	void set_angle_beta(double val);
 	void set_resolution(int val);
+	void set_3dMouse(short rx, short ry);
 
 signals:
 	void changePos();	// called when mouse is moved
