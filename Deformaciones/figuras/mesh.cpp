@@ -74,6 +74,7 @@ void Mesh::set_node_force(int node_force_x, int node_force_y) {
 
 void Mesh::set_force(float force) {
 	this->force = force;
+	replicate_force();
 }
 
 void Mesh::replicate_force() {
@@ -105,6 +106,22 @@ void Mesh::replicate_force() {
 }
 
 /*	#########################################################	*/
+
+void Mesh::set_angle_alpha(float val){
+    for (int i = 0; i < springs_len; i++)
+    {
+		springs[0][i]->set_angle_alpha(val);
+		springs[1][i]->set_angle_alpha(val);
+    }
+}
+
+void Mesh::set_angle_beta(float val){
+	for (int i = 0; i < springs_len; i++)
+    {
+		springs[0][i]->set_angle_beta(val);
+		springs[1][i]->set_angle_beta(val);
+    }
+}
 
 void Mesh::set_resolution(int val) {
 	int val_anterior;

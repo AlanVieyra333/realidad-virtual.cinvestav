@@ -17,6 +17,8 @@ public:
 	void dibuja_figura(float t);
 	void set_node_force(int node_force_x, int node_force_y);
 	void set_force(float force);
+	void set_angle_alpha(float val);
+	void set_angle_beta(float val);
 	void set_resolution(int val);
 
 private:

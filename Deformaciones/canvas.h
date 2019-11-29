@@ -53,6 +53,9 @@ public slots:
 	void setEye(float, float, float);
 	void setCenter(float, float, float);
 	void setCenterDegree(float);
+	void set_force(float val);
+	void set_angle_alpha(float val);
+	void set_angle_beta(float val);
 	void set_resolution(int val);
 
 signals:

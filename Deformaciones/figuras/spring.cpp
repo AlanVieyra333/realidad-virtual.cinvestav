@@ -87,7 +87,6 @@ void Spring::set_node_force(int node) {
 }
 
 void Spring::set_force(float force) {
-	this->force = force;
 	mra[node_force].set_force(force);
 }
 
@@ -104,6 +103,7 @@ void Spring::quit_force() {
 void Spring::replicate_force() {
 	float delta = (BASE_NODES - 1.0)/(nodes_len - 1.0);	// Distancia entre resortes
 	float d = 0.0;
+	float force = mod_vector(mra[node_force].v_force);
 
 	for (int i = 0; i <= nodes_len; i++)
     {
@@ -118,6 +118,20 @@ void Spring::replicate_force() {
 			mra[node_force + i].set_force(f);
 
 		d += delta;
+    }
+}
+
+void Spring::set_angle_alpha(float val){
+	for (int i = 0; i < nodes_len; i++)
+    {
+		mra[i].set_alpha(val);
+    }
+}
+
+void Spring::set_angle_beta(float val){
+	for (int i = 0; i < nodes_len; i++)
+    {
+		mra[i].set_beta(val);
     }
 }
 

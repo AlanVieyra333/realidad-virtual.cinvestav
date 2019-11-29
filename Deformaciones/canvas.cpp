@@ -202,3 +202,18 @@ void Canvas::set_resolution(int val) {
 	Mesh *mesh = (Mesh*) figuras[0];
 	mesh->set_resolution(val);
 }
+
+void Canvas::set_force(float val) {
+	Mesh *mesh = (Mesh*) figuras[0];
+	mesh->set_force(val);
+}
+
+void Canvas::set_angle_alpha(float val) {
+	Mesh *mesh = (Mesh*) figuras[0];
+	mesh->set_angle_alpha(val);
+}
+
+void Canvas::set_angle_beta(float val) {
+	Mesh *mesh = (Mesh*) figuras[0];
+	mesh->set_angle_beta(val);
+}
