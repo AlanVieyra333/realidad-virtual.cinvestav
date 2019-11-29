@@ -19,8 +19,8 @@ public:
 	void dibuja_figura(void* data);
 	void set_main_node(int node);
 	void set_force(float force);
-	void set_angle_alpha(float alpha);
-    void set_angle_beta(float beta);
+	void set_alpha(float alpha);
+    void set_beta(float beta);
 	void set_resolution(int val);
 
 private:
@@ -29,6 +29,7 @@ private:
 	MRA mra[MAX_NODES];
 	int nodes_len, main_node;
 	float d_nodes;
+	int resolution;
 
 	void init_nodes_position();
 	void step_deformation();

@@ -27,8 +27,8 @@ MRA::~MRA(){}
 void MRA::set_force(float f) {
     v_force = {0,0,0};
     v_force[0] = cos(beta) * cos(alpha);
-    v_force[1] = sin(beta) * cos(alpha);
-    v_force[2] = sin(alpha);
+    v_force[1] = sin(beta);
+    v_force[2] = sin(alpha) * cos(beta);
 
     // Normalize
     v_force = normalize_vector(v_force);

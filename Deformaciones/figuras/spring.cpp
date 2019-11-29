@@ -48,6 +48,10 @@ void Spring::dibuja_figura(void* data)
 	float x, y, z;
 	dataMesh* data_mesh = (dataMesh*) data;
 
+	if(data_mesh->resolution != this->resolution) set_resolution(data_mesh->resolution);
+	set_alpha(data_mesh->alpha);
+	set_beta(data_mesh->beta);
+
 	if (data_mesh->apply_force) {
 		replicate_force();
 		apply_force();
@@ -128,14 +132,14 @@ void Spring::replicate_force() {
     }
 }
 
-void Spring::set_angle_alpha(float val){
+void Spring::set_alpha(float val){
 	for (int i = 0; i < nodes_len; i++)
     {
 		mra[i].set_alpha(val);
     }
 }
 
-void Spring::set_angle_beta(float val){
+void Spring::set_beta(float val){
 	for (int i = 0; i < nodes_len; i++)
     {
 		mra[i].set_beta(val);
@@ -143,44 +147,35 @@ void Spring::set_angle_beta(float val){
 }
 
 void Spring::set_resolution(int val) {
-	int val_anterior;
-	if (nodes_len == BASE_NODES)
-	{
-		val_anterior = 1;
-	} else if (nodes_len == (BASE_NODES*2) - 1)
-	{
-		val_anterior = 2;
-	} else {
-		val_anterior = 3;
-	}
+	int prev_resolution = this->resolution;
+	this->resolution = val;
 	
-	switch (val)
+	switch (this->resolution)
 	{
 	case 1:
 		nodes_len = BASE_NODES;
-		init_nodes_position();
-		if (val_anterior == 2)
+		if (prev_resolution == 2)
 			main_node = main_node/2;
-		else if (val_anterior == 3)
+		else if (prev_resolution == 3)
 			main_node = main_node/4;
 		break;
 	case 2:
 		nodes_len = (BASE_NODES*2) - 1;
-		init_nodes_position();
-		if (val_anterior == 1)
+		if (prev_resolution == 1)
 			main_node = main_node*2;
-		else if (val_anterior == 3)
+		else if (prev_resolution == 3)
 			main_node = main_node/2;
 		break;
 	case 3:
 		nodes_len = (BASE_NODES*4) - 3;
-		init_nodes_position();
-		if (val_anterior == 1)
+		if (prev_resolution == 1)
 			main_node = main_node*4;
-		else if (val_anterior == 2)
+		else if (prev_resolution == 2)
 			main_node = main_node*2;
 		break;
 	default:
 		break;
 	}
+
+	init_nodes_position();
 }

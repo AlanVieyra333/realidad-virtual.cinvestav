@@ -61,9 +61,9 @@ void Mesh::dibuja_figura(void* data)
 	dataMesh* data_mesh = (dataMesh*) data;
 
 	if(data_mesh->resolution != this->resolution) set_resolution(data_mesh->resolution);
-	if(data_mesh->alpha != this->alpha) set_angle_alpha(data_mesh->alpha);
-	if(data_mesh->beta != this->beta) set_angle_beta(data_mesh->beta);
-	if(data_mesh->force != this->force) set_force(data_mesh->force);
+	this->alpha = data_mesh->alpha;
+	this->beta = data_mesh->beta;
+	this->force = data_mesh->force;
 	set_3dMouse(data_mesh->mouse3d_x, data_mesh->mouse3d_y);
 
 	//printf("%f %f %f %d\n", data_mesh->force, data_mesh->alpha, data_mesh->beta, data_mesh->resolution);
@@ -88,11 +88,6 @@ void Mesh::dibuja_figura(void* data)
 void Mesh::set_main_node(int main_node_x, int main_node_y) {
 	this->main_node_x = main_node_x;
 	this->main_node_y = main_node_y;
-}
-
-void Mesh::set_force(float force) {
-	this->force = force;
-	//replicate_force();
 }
 
 void Mesh::replicate_force() {
@@ -124,24 +119,6 @@ void Mesh::replicate_force() {
 }
 
 /*	#########################################################	*/
-
-void Mesh::set_angle_alpha(float val){
-	this->alpha = val;
-    for (int i = 0; i < springs_len; i++)
-    {
-		springs[0][i]->set_angle_alpha(this->alpha);
-		springs[1][i]->set_angle_alpha(this->alpha);
-    }
-}
-
-void Mesh::set_angle_beta(float val){
-	this->beta = val;
-	for (int i = 0; i < springs_len; i++)
-    {
-		springs[0][i]->set_angle_beta(this->beta);
-		springs[1][i]->set_angle_beta(this->beta);
-    }
-}
 
 /**
  * Recalcula el numero de cuerdas, el nodo principal (x,y), .
@@ -181,17 +158,6 @@ void Mesh::set_resolution(int val) {
 	}
 
 	init_springs_position();
-
-	// Nueva resolucion de resortes
-    for (int i = 0; i < springs_len; i++)
-    {
-		springs[0][i]->set_resolution(val);
-		springs[1][i]->set_resolution(val);
-    }
-
-	set_angle_alpha(this->alpha);
-	set_angle_beta(this->beta);
-	set_force(this->force);
 }
 
 void Mesh::set_3dMouse(short rx, short ry) {
