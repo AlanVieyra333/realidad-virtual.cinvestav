@@ -69,10 +69,13 @@ private:
 	vector<float> centerO = {0.0, 0.0, 0.0};
 	float centerDegreeO = -90, centerDegree = -90.0;	// Z negative
 	float centerRadio = 10;
+	float force, alpha, beta;
 
 	/* Figures */
 	vector<Figura*> shapes;
 	void* data_shape = NULL;
+
+	void set_v_force(float force, float alpha, float beta);
 };
 
 #endif // CANVAS_H

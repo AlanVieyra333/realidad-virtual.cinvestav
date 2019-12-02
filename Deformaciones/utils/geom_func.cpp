@@ -53,3 +53,17 @@ vector<float> vector_sub(vector<float> v1, vector<float> v2) {
 	res[2] = v1[2] - v2[2];
 	return res;
 }
+
+vector<float> to_vector_force(float force, float alpha, float beta) {
+	vector<float> v_force = {0,0,0};
+    v_force[0] = cos(beta) * cos(alpha);
+    v_force[1] = sin(beta);
+    v_force[2] = sin(alpha) * cos(beta);
+
+    // Normalize
+    v_force = normalize_vector(v_force);
+    // Establecer fuerza
+    v_force = escalar_product(v_force, force);
+
+	return v_force;
+}

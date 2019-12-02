@@ -1,6 +1,10 @@
 #ifndef DATA_SHAPE_H
 #define DATA_SHAPE_H
 
+#include <vector>
+
+using namespace std;
+
 typedef struct _dataMesh {
   bool apply_force;
   float force;
@@ -9,6 +13,7 @@ typedef struct _dataMesh {
   int resolution;
   int mouse3d_x;
   int mouse3d_y;
+  vector<float> v_force;
 } dataMesh;
 
 typedef struct _dataRehilete {

@@ -14,5 +14,6 @@ float mod_vector(vector<float> v);
 vector<float> normalize_vector(vector<float> v);
 vector<float> vector_sub(vector<float> v1, vector<float> v2);
 vector<float> escalar_product(vector<float> v, float k);
+vector<float> to_vector_force(float force, float alpha, float beta);
 
 #endif // GEOM_FUNC_H

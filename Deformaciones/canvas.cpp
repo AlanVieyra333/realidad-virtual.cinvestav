@@ -3,6 +3,7 @@
 #include <math.h>
 
 #include "utils/data_shape.h"
+#include "utils/geom_func.h"
 
 #ifdef __APPLE__
 	#include <GLUT/glut.h>
@@ -241,16 +242,26 @@ void Canvas::set_resolution(int val) {
 	((dataMesh*) data_shape)->resolution = val;
 }
 
-void Canvas::set_force(double val) {
-	((dataMesh*) data_shape)->force = val;
+void Canvas::set_v_force(float force, float alpha, float beta) {
+	this->force = force;
+	this->alpha = alpha;
+	this->beta = beta;
+	((dataMesh*) data_shape)->v_force = to_vector_force(force, alpha, beta);
+	((dataMesh*) data_shape)->alpha = alpha;
+	((dataMesh*) data_shape)->beta = beta;
+	((dataMesh*) data_shape)->force = force;
 }
 
-void Canvas::set_angle_alpha(double val) {
-	((dataMesh*) data_shape)->alpha = val;
+void Canvas::set_force(double force) {
+	set_v_force(force, alpha, beta);
 }
 
-void Canvas::set_angle_beta(double val) {
-	((dataMesh*) data_shape)->beta = val;
+void Canvas::set_angle_alpha(double alpha) {
+	set_v_force(force, alpha, beta);
+}
+
+void Canvas::set_angle_beta(double beta) {
+	set_v_force(force, alpha, beta);
 }
 
 void Canvas::set_3dMouse(short rx, short ry) {
