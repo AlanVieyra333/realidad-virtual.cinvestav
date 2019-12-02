@@ -18,9 +18,7 @@ public:
 	Spring(vector<float> v1, vector<float>  v2);
 	void dibuja_figura(void* data);
 	void set_main_node(int node);
-	void set_force(float force);
-	void set_alpha(float alpha);
-    void set_beta(float beta);
+	void set_v_force(vector<float> v_force);
 	void set_resolution(int val);
 
 private:
@@ -30,6 +28,7 @@ private:
 	int nodes_len, main_node;
 	float d_nodes;
 	int resolution;
+	vector<float> v_force;
 
 	void init_nodes_position();
 	void step_deformation();

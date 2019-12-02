@@ -26,7 +26,6 @@ private:
 	int springs_len;
 	float d_spring;
 	int main_node_x, main_node_y;
-	float force, alpha, beta;
 	int resolution;
 	vector<float> v_force;
 

@@ -31,9 +31,7 @@ Canvas::Canvas( QWidget *parent )
 	// Init datatype of data shape.
 	dataMesh* data_mesh = (dataMesh*) malloc(sizeof(dataMesh));
 	data_mesh->apply_force = false;
-	data_mesh->force = 0.2;
-	data_mesh->alpha = 0.0;
-	data_mesh->beta = 90.0;
+	data_mesh->v_force[0] = 0; data_mesh->v_force[1] = 0.2; data_mesh->v_force[2] = 0;
 	data_mesh->resolution = 1;
 	data_mesh->mouse3d_x = 0;
 	data_mesh->mouse3d_y = 0;
@@ -250,9 +248,6 @@ void Canvas::set_v_force(float force, float alpha, float beta) {
 	((dataMesh*) data_shape)->v_force[0] = v_force_tmp[0];
 	((dataMesh*) data_shape)->v_force[1] = v_force_tmp[1];
 	((dataMesh*) data_shape)->v_force[2] = v_force_tmp[2];
-	((dataMesh*) data_shape)->alpha = alpha;
-	((dataMesh*) data_shape)->beta = beta;
-	((dataMesh*) data_shape)->force = force;
 }
 
 void Canvas::set_force(double force) {

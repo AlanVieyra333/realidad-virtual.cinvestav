@@ -18,9 +18,6 @@ Mesh::Mesh(vector<float> v_start, vector<float> v_end)
 
 	springs_len = BASE_SPRINGS;
 
-	force = 0.2;
-	alpha = 0.0;
-	beta = 90.0;
 	v_force = {0, 0.2, 0};
 	resolution = 1;
 	main_node_x = (springs_len / 2);
@@ -62,9 +59,6 @@ void Mesh::dibuja_figura(void* data)
 	dataMesh* data_mesh = (dataMesh*) data;
 
 	if(data_mesh->resolution != this->resolution) set_resolution(data_mesh->resolution);
-	this->alpha = data_mesh->alpha;
-	this->beta = data_mesh->beta;
-	this->force = data_mesh->force;
 	set_v_force(data_mesh->v_force);
 	set_3dMouse(data_mesh->mouse3d_x, data_mesh->mouse3d_y);
 
@@ -98,23 +92,24 @@ void Mesh::replicate_force() {
 
 	for (int i = 0; i <= springs_len; i++)
     {
-		double f = force / pow(2.0, d);
+		vector<float> v_new_force = escalar_product(v_force, 1.0 / pow(2.0, d));
+		//printf("val: %f %f %f\n", v_new_force[0], v_new_force[1], v_new_force[2]);
 
 		// Arriba
 		if (main_node_y - i >= 0)
-			springs[0][main_node_y - i]->set_force(f);
+			springs[0][main_node_y - i]->set_v_force(v_new_force);
 		
 		// Abajo
 		if (main_node_y + i < springs_len)
-			springs[0][main_node_y + i]->set_force(f);
+			springs[0][main_node_y + i]->set_v_force(v_new_force);
 
 		// Izquierda
 		if (main_node_x - i >= 0)
-			springs[1][main_node_x - i]->set_force(f);
+			springs[1][main_node_x - i]->set_v_force(v_new_force);
 
 		// Derecha
 		if (main_node_x + i < springs_len)
-			springs[1][main_node_x + i]->set_force(f);
+			springs[1][main_node_x + i]->set_v_force(v_new_force);
 
 		d += delta;
     }

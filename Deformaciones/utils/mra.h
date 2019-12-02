@@ -11,7 +11,6 @@ private:
     float dt, k, m, b;
     float k1, k2;
 public:
-    float alpha, beta;
     vector<float> v_force;
 
     float x_1, x;
@@ -26,12 +25,10 @@ public:
     MRA(/* args */);
     ~MRA();
     void init();
-    void set_force(float f);
+    void set_v_force(vector<float> v_force);
     void apply_force();
     void quit_force();
     void step_deformation();
-    void set_alpha(float alpha);
-    void set_beta(float beta);
 };
 
 

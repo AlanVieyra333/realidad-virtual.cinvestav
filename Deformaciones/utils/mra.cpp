@@ -13,9 +13,7 @@ MRA::MRA()
 	k2 = 1.0 - dt*b/m;
     k3x = k3y = k3z = 0.0;
 
-    set_alpha(0.0);
-    set_beta(90.0);
-    set_force(0.2);
+    set_v_force({0,0.2,0});
 
     x_1 = x = 0.0;
     y_1 = y = 0.0;
@@ -24,16 +22,8 @@ MRA::MRA()
 
 MRA::~MRA(){}
 
-void MRA::set_force(float f) {
-    v_force = {0,0,0};
-    v_force[0] = cos(beta) * cos(alpha);
-    v_force[1] = sin(beta);
-    v_force[2] = sin(alpha) * cos(beta);
-
-    // Normalize
-    v_force = normalize_vector(v_force);
-    // Establecer fuerza
-    v_force = escalar_product(v_force, f);
+void MRA::set_v_force(vector<float> v_force) {
+    this->v_force = v_force;
 }
 
 void MRA::apply_force() {
@@ -60,12 +50,4 @@ void MRA::step_deformation() {
     z_next = k1 * z - k2 * z_1 + k3z;
     z_1 = z;
     z   = z_next;
-}
-
-void MRA::set_alpha(float alpha) {
-    this->alpha = deg_to_rad(alpha);
-}
-
-void MRA::set_beta(float beta) {
-    this->beta = deg_to_rad(beta);
 }

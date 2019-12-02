@@ -15,6 +15,7 @@ Spring::Spring(vector<float> v_start, vector<float> v_end)
 	this->v_start = v_start;
 	this->v_end = v_end;
 
+	set_v_force({0,0.2,0});
 	nodes_len = BASE_NODES;
 	main_node = (nodes_len / 2);
 
@@ -49,8 +50,7 @@ void Spring::dibuja_figura(void* data)
 	dataMesh* data_mesh = (dataMesh*) data;
 
 	if(data_mesh->resolution != this->resolution) set_resolution(data_mesh->resolution);
-	set_alpha(data_mesh->alpha);
-	set_beta(data_mesh->beta);
+	//set_v_force(data_mesh->v_force);
 
 	if (data_mesh->apply_force) {
 		replicate_force();
@@ -97,8 +97,8 @@ void Spring::set_main_node(int node) {
 	main_node = node;
 }
 
-void Spring::set_force(float force) {
-	mra[main_node].set_force(force);
+void Spring::set_v_force(vector<float> v_force) {
+	this->v_force = v_force;
 }
 
 void Spring::apply_force() {
@@ -114,35 +114,21 @@ void Spring::quit_force() {
 void Spring::replicate_force() {
 	float delta = (BASE_NODES - 1.0)/(nodes_len - 1.0);	// Distancia entre resortes
 	float d = 0.0;
-	float force = mod_vector(mra[main_node].v_force);
 
 	for (int i = 0; i <= nodes_len; i++)
     {
-		float f = force / pow(2.0, d);
+		vector<float> v_new_force = escalar_product(v_force, 1.0 / pow(2.0, d));
+		//printf("val: %f %f %f\n", v_new_force[0], v_new_force[1], v_new_force[2]);
 
 		// Izquierda/Arriba
 		if (main_node - i >= 0)
-			mra[main_node - i].set_force(f);
+			mra[main_node - i].set_v_force(v_new_force);
 
 		// Derecha/Abajo
 		if (main_node + i < nodes_len)
-			mra[main_node + i].set_force(f);
+			mra[main_node + i].set_v_force(v_new_force);
 
 		d += delta;
-    }
-}
-
-void Spring::set_alpha(float val){
-	for (int i = 0; i < nodes_len; i++)
-    {
-		mra[i].set_alpha(val);
-    }
-}
-
-void Spring::set_beta(float val){
-	for (int i = 0; i < nodes_len; i++)
-    {
-		mra[i].set_beta(val);
     }
 }
 
