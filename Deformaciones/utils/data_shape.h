@@ -8,8 +8,7 @@ using namespace std;
 typedef struct _dataMesh {
   bool apply_force;
   int resolution;
-  int mouse3d_x;
-  int mouse3d_y;
+  float v_main_node[3];
   float v_force[3];
 } dataMesh;
 

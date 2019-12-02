@@ -33,8 +33,7 @@ Canvas::Canvas( QWidget *parent )
 	data_mesh->apply_force = false;
 	data_mesh->v_force[0] = 0; data_mesh->v_force[1] = 0.2; data_mesh->v_force[2] = 0;
 	data_mesh->resolution = 1;
-	data_mesh->mouse3d_x = 0;
-	data_mesh->mouse3d_y = 0;
+	data_mesh->v_main_node[0] = 0; data_mesh->v_main_node[1] = 0;
 	data_shape = (void *) data_mesh;
 }
 
@@ -263,6 +262,26 @@ void Canvas::set_angle_beta(double beta) {
 }
 
 void Canvas::set_3dMouse(short rx, short ry) {
-	((dataMesh*) data_shape)->mouse3d_x = rx;
-	((dataMesh*) data_shape)->mouse3d_y = ry;
+	((dataMesh*) data_shape)->v_main_node[0] = rx / -530;
+	((dataMesh*) data_shape)->v_main_node[1] = 0;
+	((dataMesh*) data_shape)->v_main_node[2] = ry / 530;
+
+	// short min = -525;
+	// short max = 525;
+	// short total = max - min;
+	// short interval = total/springs_len;
+
+	// short nodes_move = rx / interval;
+	// short node_x = (springs_len / 2) - nodes_move;
+
+	// nodes_move = ry / interval;
+	// short node_y = (springs_len / 2) - nodes_move;
+
+	// //printf("mouse: %d %d\n", rx, ry);
+	// //printf("nodes: %d %d\n", node_x, node_y);
+	
+	// if(main_node_x != node_x || main_node_y != node_y){
+	// 	main_node_x = node_x;
+	// 	main_node_y = node_y;
+	// }
 }

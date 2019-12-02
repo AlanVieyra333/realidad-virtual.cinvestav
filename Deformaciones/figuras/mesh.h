@@ -15,23 +15,19 @@ class Mesh : public Figura
 public:
 	Mesh(vector<float> v_start, vector<float>  v_end);
 	void dibuja_figura(void* data);
-	void set_main_node(int main_node_x, int main_node_y);
 	void set_resolution(int val);
-
-	void set_3dMouse(short rx, short ry);
 
 private:
 	vector<float> v_start, v_end;
 	Spring *springs[2][MAX_SPRINGS];	// Vertical & Horizontal
 	int springs_len;
 	float d_spring;
-	int main_node_x, main_node_y;
 	int resolution;
 	vector<float> v_force;
 
 	void init_springs_position();
-	void replicate_force();
 	void set_v_force(float v_force[3]);
+	void calculate_main_node(float *v_main_node);
 };
 
 #endif // MESH_H

@@ -15,9 +15,9 @@ Spring::Spring(vector<float> v_start, vector<float> v_end)
 	this->v_start = v_start;
 	this->v_end = v_end;
 
-	set_v_force({0,0.2,0});
+	v_force = {0,0.2,0};
+	v_main_node = {0,0,0};
 	nodes_len = BASE_NODES;
-	main_node = (nodes_len / 2);
 
 	init_nodes_position();
 }
@@ -50,7 +50,8 @@ void Spring::dibuja_figura(void* data)
 	dataMesh* data_mesh = (dataMesh*) data;
 
 	if(data_mesh->resolution != this->resolution) set_resolution(data_mesh->resolution);
-	//set_v_force(data_mesh->v_force);
+	set_v_force(data_mesh->v_force);
+	set_v_main_node(data_mesh->v_main_node);
 
 	if (data_mesh->apply_force) {
 		replicate_force();
@@ -73,18 +74,18 @@ void Spring::dibuja_figura(void* data)
 			glVertex3d(x, y, z);
 		}
 	glEnd();
-	glBegin(GL_POINTS);
-		glColor3f(0.0, 0.0, 1.0);
+	// glBegin(GL_POINTS);
+	// 	glColor3f(0.0, 0.0, 1.0);
 		
-		//glVertex3d(nodes[0][0], nodes[0][1], nodes[0][2]);
+	// 	//glVertex3d(nodes[0][0], nodes[0][1], nodes[0][2]);
 
-		x = nodes[main_node][0] + mra[main_node].x;
-		y = nodes[main_node][1] + mra[main_node].y;
-		z = nodes[main_node][2] + mra[main_node].z;
-		glVertex3d(x, y, z);
+	// 	x = nodes[main_node][0] + mra[main_node].x;
+	// 	y = nodes[main_node][1] + mra[main_node].y;
+	// 	z = nodes[main_node][2] + mra[main_node].z;
+	// 	glVertex3d(x, y, z);
 
-		//glVertex3d(nodes[nodes_len - 1][0], nodes[nodes_len - 1][1], nodes[nodes_len - 1][2]);
-	glEnd();
+	// 	//glVertex3d(nodes[nodes_len - 1][0], nodes[nodes_len - 1][1], nodes[nodes_len - 1][2]);
+	// glEnd();
 }
 
 void Spring::step_deformation() {
@@ -93,12 +94,10 @@ void Spring::step_deformation() {
 	}
 }
 
-void Spring::set_main_node(int node) {
-	main_node = node;
-}
-
-void Spring::set_v_force(vector<float> v_force) {
-	this->v_force = v_force;
+void Spring::set_v_force(float v_force[3]) {
+	this->v_force[0] = v_force[0];
+	this->v_force[1] = v_force[1];
+	this->v_force[2] = v_force[2];
 }
 
 void Spring::apply_force() {
@@ -111,57 +110,92 @@ void Spring::quit_force() {
 		mra[i].quit_force();
 }
 
+void Spring::set_dir(int dir) {
+	this->dir = dir;
+}
+
 void Spring::replicate_force() {
 	float delta = (BASE_NODES - 1.0)/(nodes_len - 1.0);	// Distancia entre resortes
 	float d = 0.0;
 
-	for (int i = 0; i <= nodes_len; i++)
+	for (int i = 0; i < nodes_len; i++)
     {
-		vector<float> v_new_force = escalar_product(v_force, 1.0 / pow(2.0, d));
+		vector<float> v_node = {0,0,0};
+
+		if(dir == 0) {	// Horizontal
+			float length_x = abs(v_end[0] - v_start[0]);
+			float unity = length_x / (nodes_len - 1);
+
+			v_node[0] = v_start[0] + (unity * i);
+			v_node[1] = v_start[1];	
+			v_node[2] = v_start[2];	
+		}else {
+			float length_x = abs(v_end[2] - v_start[2]);
+			float unity = length_x / (nodes_len - 1);
+
+			v_node[0] = v_start[0];
+			v_node[1] = v_start[1];
+			v_node[2] = v_start[2] + (unity * i);	
+		}
+		
+		vector<float> v_new_force = calculate_force(v_node);
+		//vector<float> v_new_force = escalar_product(v_force, 1.0 / pow(2.0, d));
 		//printf("val: %f %f %f\n", v_new_force[0], v_new_force[1], v_new_force[2]);
+		//printf("vectores: %f %f %f    %f %f %f\n", v_node[0], v_node[1], v_node[2], v_main_node[0], v_main_node[1], v_main_node[2]);
 
-		// Izquierda/Arriba
-		if (main_node - i >= 0)
-			mra[main_node - i].set_v_force(v_new_force);
-
-		// Derecha/Abajo
-		if (main_node + i < nodes_len)
-			mra[main_node + i].set_v_force(v_new_force);
+		mra[i].set_v_force(v_new_force);
 
 		d += delta;
     }
 }
 
-void Spring::set_resolution(int val) {
-	int prev_resolution = this->resolution;
-	this->resolution = val;
+void Spring::set_resolution(int resolution) {
+	this->resolution = resolution;
 	
 	switch (this->resolution)
 	{
 	case 1:
 		nodes_len = BASE_NODES;
-		if (prev_resolution == 2)
-			main_node = main_node/2;
-		else if (prev_resolution == 3)
-			main_node = main_node/4;
 		break;
 	case 2:
 		nodes_len = (BASE_NODES*2) - 1;
-		if (prev_resolution == 1)
-			main_node = main_node*2;
-		else if (prev_resolution == 3)
-			main_node = main_node/2;
 		break;
 	case 3:
 		nodes_len = (BASE_NODES*4) - 3;
-		if (prev_resolution == 1)
-			main_node = main_node*4;
-		else if (prev_resolution == 2)
-			main_node = main_node*2;
 		break;
 	default:
 		break;
 	}
 
 	init_nodes_position();
+}
+
+void Spring::set_v_main_node(float v_main_node[3]) {
+	this->v_main_node[0] = v_main_node[0];
+	this->v_main_node[1] = v_main_node[1];
+	this->v_main_node[2] = v_main_node[2];
+}
+
+vector<float> Spring::calculate_force(vector<float> v_node) {
+	vector<float> result;
+	float dist = distance(v_node, v_main_node);
+	float length_x = abs(v_end[0] - v_start[0]);
+	float unity = length_x / (nodes_len - 1);
+
+	if(dir == 1) {
+		length_x = abs(v_end[2] - v_start[2]);
+		unity = length_x / (nodes_len - 1);
+	}
+
+	float dist_relative = dist / unity;
+
+	result = escalar_product(v_force, 1.0 / pow(2.0, dist_relative));
+
+	if(dir == 1) {
+		printf("v_node: %f %f %f\n", result[0], result[1], result[2]);
+		printf("v_node: %f %f %f\n", dist, unity, dist_relative);
+		//printf("      v_main_node: %f %f %f\n", v_main_node[0], v_main_node[1], v_main_node[2]);
+	}
+
+	return result;
 }
