@@ -246,7 +246,10 @@ void Canvas::set_v_force(float force, float alpha, float beta) {
 	this->force = force;
 	this->alpha = alpha;
 	this->beta = beta;
-	((dataMesh*) data_shape)->v_force = to_vector_force(force, alpha, beta);
+	vector<float> v_force_tmp = to_vector_force(force, alpha, beta);
+	((dataMesh*) data_shape)->v_force[0] = v_force_tmp[0];
+	((dataMesh*) data_shape)->v_force[1] = v_force_tmp[1];
+	((dataMesh*) data_shape)->v_force[2] = v_force_tmp[2];
 	((dataMesh*) data_shape)->alpha = alpha;
 	((dataMesh*) data_shape)->beta = beta;
 	((dataMesh*) data_shape)->force = force;

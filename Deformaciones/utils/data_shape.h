@@ -13,7 +13,7 @@ typedef struct _dataMesh {
   int resolution;
   int mouse3d_x;
   int mouse3d_y;
-  vector<float> v_force;
+  float v_force[3];
 } dataMesh;
 
 typedef struct _dataRehilete {

@@ -21,6 +21,7 @@ Mesh::Mesh(vector<float> v_start, vector<float> v_end)
 	force = 0.2;
 	alpha = 0.0;
 	beta = 90.0;
+	v_force = {0, 0.2, 0};
 	resolution = 1;
 	main_node_x = (springs_len / 2);
 	main_node_y = (springs_len / 2);
@@ -64,6 +65,7 @@ void Mesh::dibuja_figura(void* data)
 	this->alpha = data_mesh->alpha;
 	this->beta = data_mesh->beta;
 	this->force = data_mesh->force;
+	set_v_force(data_mesh->v_force);
 	set_3dMouse(data_mesh->mouse3d_x, data_mesh->mouse3d_y);
 
 	//printf("%f %f %f %d\n", data_mesh->force, data_mesh->alpha, data_mesh->beta, data_mesh->resolution);
@@ -179,4 +181,10 @@ void Mesh::set_3dMouse(short rx, short ry) {
 		main_node_x = node_x;
 		main_node_y = node_y;
 	}
+}
+
+void Mesh::set_v_force(float v_force[3]) {
+	this->v_force[0] = v_force[0];
+	this->v_force[1] = v_force[1];
+	this->v_force[2] = v_force[2];
 }

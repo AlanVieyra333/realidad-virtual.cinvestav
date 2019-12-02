@@ -28,9 +28,11 @@ private:
 	int main_node_x, main_node_y;
 	float force, alpha, beta;
 	int resolution;
+	vector<float> v_force;
 
 	void init_springs_position();
 	void replicate_force();
+	void set_v_force(float v_force[3]);
 };
 
 #endif // MESH_H
