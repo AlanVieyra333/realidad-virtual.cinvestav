@@ -17,15 +17,12 @@ using namespace std;
 Canvas::Canvas( QWidget *parent )
 		: QGLWidget( parent )
 {
-	signo = 1;	
-
 	setFocusPolicy( Qt::StrongFocus);
 
 	timer = new QTimer( this );
 	connect ( timer, SIGNAL(timeout()), this, SLOT(timerDone()) );
 
 	xrot = yrot = 0;
-
 	setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
 	// Init datatype of data shape.
@@ -35,6 +32,8 @@ Canvas::Canvas( QWidget *parent )
 	data_mesh->resolution = 1;
 	data_mesh->v_main_node[0] = 0; data_mesh->v_main_node[1] = 0;
 	data_shape = (void *) data_mesh;
+
+	set_v_force(0.2, 0, 90);
 }
 
 Canvas::~Canvas() {
@@ -64,10 +63,10 @@ void Canvas::keyPressEvent ( QKeyEvent * e )
 {
 	switch ( e->key() ) {
 		case '+':   
-			signo = 1;
+			// TODO
 			break;
 		case '-':  
-			signo = -1;
+			// TODO
 			break;
 		case 16777234:	// Left
 			//setCenterDegree(centerDegree - 2.0);
@@ -239,11 +238,14 @@ void Canvas::set_resolution(int val) {
 	((dataMesh*) data_shape)->resolution = val;
 }
 
-void Canvas::set_v_force(float force, float alpha, float beta) {
+void Canvas::set_v_force(float force, float alpha_deg, float beta_deg) {
 	this->force = force;
-	this->alpha = alpha;
-	this->beta = beta;
-	vector<float> v_force_tmp = to_vector_force(force, alpha, beta);
+	this->alpha = alpha_deg;
+	this->beta = beta_deg;
+
+	vector<float> v_force_tmp = to_vector_force(force, deg_to_rad(alpha), deg_to_rad(beta));
+	// printf("vector: %f %f %f\n", force, alpha, beta);
+	// printf("vector: %f %f %f\n", v_force_tmp[0], v_force_tmp[1], v_force_tmp[2]);
 	((dataMesh*) data_shape)->v_force[0] = v_force_tmp[0];
 	((dataMesh*) data_shape)->v_force[1] = v_force_tmp[1];
 	((dataMesh*) data_shape)->v_force[2] = v_force_tmp[2];

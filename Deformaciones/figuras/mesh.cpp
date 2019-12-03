@@ -17,11 +17,8 @@ Mesh::Mesh(vector<float> v_start, vector<float> v_end)
 	this->v_end = v_end;
 
 	springs_len = BASE_SPRINGS;
-
-	v_force = {0, 0.2, 0};
-	resolution = 1;
-
-	init_springs_position();
+	
+	set_resolution(1);
 }
 
 /**
@@ -57,7 +54,6 @@ void Mesh::dibuja_figura(void* data)
 	dataMesh* data_mesh = (dataMesh*) data;
 
 	if(data_mesh->resolution != this->resolution) set_resolution(data_mesh->resolution);
-	set_v_force(data_mesh->v_force);
 	calculate_main_node(data_mesh->v_main_node);
 
 	//printf("%f %f %f %d\n", data_mesh->force, data_mesh->alpha, data_mesh->beta, data_mesh->resolution);
@@ -99,12 +95,6 @@ void Mesh::set_resolution(int resolution) {
 	init_springs_position();
 }
 
-void Mesh::set_v_force(float v_force[3]) {
-	this->v_force[0] = v_force[0];
-	this->v_force[1] = v_force[1];
-	this->v_force[2] = v_force[2];
-}
-
 /**
  * Calcula el nodo principal al que se le aplica la fuerza.
 */
@@ -115,5 +105,4 @@ void Mesh::calculate_main_node(float *v_main_node) {
 	v_main_node[0] *= (length_x / 2.0);
 	v_main_node[1] *= 0;
 	v_main_node[2] *= (length_y / 2.0);
-	//float unity = length_x / springs_len;
 }

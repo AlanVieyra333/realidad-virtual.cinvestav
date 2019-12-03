@@ -19,7 +19,7 @@ Spring::Spring(vector<float> v_start, vector<float> v_end)
 	v_main_node = {0,0,0};
 	nodes_len = BASE_NODES;
 
-	init_nodes_position();
+	set_resolution(1);
 }
 
 /**
@@ -48,10 +48,10 @@ void Spring::dibuja_figura(void* data)
 {
 	float x, y, z;
 	dataMesh* data_mesh = (dataMesh*) data;
-
-	if(data_mesh->resolution != this->resolution) set_resolution(data_mesh->resolution);
 	set_v_force(data_mesh->v_force);
 	set_v_main_node(data_mesh->v_main_node);
+
+	if(data_mesh->resolution != this->resolution) set_resolution(data_mesh->resolution);
 
 	if (data_mesh->apply_force) {
 		replicate_force();
@@ -180,22 +180,22 @@ vector<float> Spring::calculate_force(vector<float> v_node) {
 	vector<float> result;
 	float dist = distance(v_node, v_main_node);
 	float length_x = abs(v_end[0] - v_start[0]);
-	float unity = length_x / (nodes_len - 1);
+	float unity = length_x / (BASE_NODES - 1);
 
 	if(dir == 1) {
 		length_x = abs(v_end[2] - v_start[2]);
-		unity = length_x / (nodes_len - 1);
+		unity = length_x / (BASE_NODES - 1);
 	}
 
 	float dist_relative = dist / unity;
 
 	result = escalar_product(v_force, 1.0 / pow(2.0, dist_relative));
 
-	if(dir == 1) {
-		printf("v_node: %f %f %f\n", result[0], result[1], result[2]);
-		printf("v_node: %f %f %f\n", dist, unity, dist_relative);
-		//printf("      v_main_node: %f %f %f\n", v_main_node[0], v_main_node[1], v_main_node[2]);
-	}
+	// if(dir == 1) {
+	// 	printf("v_node: %f %f %f\n", result[0], result[1], result[2]);
+	// 	printf("v_node: %f %f %f\n", dist, unity, dist_relative);
+	// 	//printf("      v_main_node: %f %f %f\n", v_main_node[0], v_main_node[1], v_main_node[2]);
+	// }
 
 	return result;
 }

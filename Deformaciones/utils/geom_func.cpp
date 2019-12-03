@@ -54,11 +54,11 @@ vector<float> vector_sub(vector<float> v1, vector<float> v2) {
 	return res;
 }
 
-vector<float> to_vector_force(float force, float alpha, float beta) {
+vector<float> to_vector_force(float force, float alpha_rad, float beta_rad) {
 	vector<float> v_force = {0,0,0};
-    v_force[0] = cos(beta) * cos(alpha);
-    v_force[1] = sin(beta);
-    v_force[2] = sin(alpha) * cos(beta);
+    v_force[0] = cos(beta_rad) * cos(alpha_rad);
+    v_force[1] = sin(beta_rad);
+    v_force[2] = sin(alpha_rad) * cos(beta_rad);
 
     // Normalize
     v_force = normalize_vector(v_force);

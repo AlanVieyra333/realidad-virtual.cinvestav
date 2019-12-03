@@ -61,7 +61,6 @@ private:
 
 	float yrot, xrot; // Encene rotation
 
-	int signo;
 	int xmouse, ymouse; // Mouse pointer coordinates
 	vector<float> eye = {0.0, 0.0, 0.0};
 	vector<float> eyeO = {0.0, 0.0, 0.0};
