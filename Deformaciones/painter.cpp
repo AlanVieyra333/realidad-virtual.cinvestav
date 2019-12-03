@@ -132,3 +132,7 @@ void Painter::setCenter(float x, float y, float z) {
 void Painter::setCenterDegree(float degree) {
     canvas->setCenterDegree(degree);
 }
+
+void Painter::set_3dMouse(short rx, short ry) {
+    canvas->set_3dMouse(rx, ry);
+}

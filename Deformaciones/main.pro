@@ -7,7 +7,7 @@ TARGET		= deformaciones
 INCLUDEPATH += .
 # ¿Es necesario incluir este camino? :
 #INCLUDEPATH += "/usr/X11/include"
-
+INCLUDEPATH += "/Library/Frameworks"
 
 QT += opengl
 
@@ -16,3 +16,5 @@ HEADERS += painter.h canvas.h ./figuras/*.h ./utils/*.h
 SOURCES += main.cpp painter.cpp canvas.cpp ./figuras/*.cpp ./utils/*.cpp
 QMAKE_CXXFLAGS += -std=c++11
 #QMAKE_LFLAGS += -lglut -lGLU -lGL
+
+LIBS += -F/Library/Frameworks -framework 3DconnexionClient

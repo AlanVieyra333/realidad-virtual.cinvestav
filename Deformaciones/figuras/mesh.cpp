@@ -17,7 +17,7 @@ Mesh::Mesh(vector<float> v_start, vector<float> v_end)
 	this->v_end = v_end;
 
 	springs_len = BASE_SPRINGS;
-	
+
 	set_resolution(1);
 }
 
@@ -100,9 +100,9 @@ void Mesh::set_resolution(int resolution) {
 */
 void Mesh::calculate_main_node(float *v_main_node) {
 	float length_x = abs(v_end[0] - v_start[0]);
-	float length_y = abs(v_end[1] - v_start[1]);
+	float length_z = abs(v_end[2] - v_start[2]);
 
 	v_main_node[0] *= (length_x / 2.0);
 	v_main_node[1] *= 0;
-	v_main_node[2] *= (length_y / 2.0);
+	v_main_node[2] *= (length_z / 2.0);
 }

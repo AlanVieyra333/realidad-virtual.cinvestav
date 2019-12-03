@@ -30,7 +30,7 @@ Canvas::Canvas( QWidget *parent )
 	data_mesh->apply_force = false;
 	data_mesh->v_force[0] = 0; data_mesh->v_force[1] = 0.2; data_mesh->v_force[2] = 0;
 	data_mesh->resolution = 1;
-	data_mesh->v_main_node[0] = 0; data_mesh->v_main_node[1] = 0;
+	data_mesh->v_main_node[0] = 0; data_mesh->v_main_node[1] = 0; data_mesh->v_main_node[2] = 0;
 	data_shape = (void *) data_mesh;
 
 	set_v_force(0.2, 0, 90);
@@ -264,9 +264,9 @@ void Canvas::set_angle_beta(double beta) {
 }
 
 void Canvas::set_3dMouse(short rx, short ry) {
-	((dataMesh*) data_shape)->v_main_node[0] = rx / -530;
+	((dataMesh*) data_shape)->v_main_node[0] = ry / -530.0;
 	((dataMesh*) data_shape)->v_main_node[1] = 0;
-	((dataMesh*) data_shape)->v_main_node[2] = ry / 530;
+	((dataMesh*) data_shape)->v_main_node[2] = rx / 530.0;
 
 	// short min = -525;
 	// short max = 525;

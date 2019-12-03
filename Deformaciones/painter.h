@@ -16,6 +16,7 @@ public:
 		void setEye(float, float, float);
 		void setCenter(float, float, float);
 		void setCenterDegree(float);
+		void set_3dMouse(short rx, short ry);
 		
 private slots:
 	void newPosition( );
