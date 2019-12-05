@@ -1,12 +1,19 @@
 APP=deformaciones
-EXT=.app
 MAIN=main
+OS := $(shell uname -s)
 
-run: ${APP}${EXT}
-	#./${APP}
-	./${APP}${EXT}/Contents/MacOS/${APP}
-${APP}${EXT}: Makefile ./**/*.cpp ./*.cpp ./**/*.h ./*.h
+ifeq ($(OS), Linux)
+run: build
+	./${APP}
+endif
+ifeq ($(OS), Darwin)
+run: build
+	./${APP}.app/Contents/MacOS/${APP}
+endif
+
+build: Makefile ./**/*.cpp ./*.cpp ./**/*.h ./*.h
 	make
+
 Makefile: ${MAIN}.pro
 	qmake ${MAIN}.pro
 
