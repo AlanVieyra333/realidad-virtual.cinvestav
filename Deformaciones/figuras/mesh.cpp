@@ -121,6 +121,9 @@ void Mesh::calculate_main_node(float *v_main_node) {
 	main_node[0] = (springs_len/2.0) + ((v_main_node[0] / 2.0) * springs_len);
 	main_node[1] = (springs_len/2.0) + ((v_main_node[2] / 2.0) * springs_len);
 
+	if(main_node[0] > springs_len - 1) main_node[0] = springs_len - 1;
+	if(main_node[1] > springs_len - 1) main_node[1] = springs_len - 1;
+
 	v_main_node[0] *= (length_x / 2.0);
 	v_main_node[1] *= 0;
 	v_main_node[2] *= (length_z / 2.0);

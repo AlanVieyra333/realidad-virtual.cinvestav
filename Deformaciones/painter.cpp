@@ -151,14 +151,15 @@ void Painter::setSpaceMouseActive(bool value)
 
 void Painter::spaceMouseMovement(const int &TX, const int &TY, const int &TZ, const int &RX, const int &RY, const int &RZ)
 {
-    float max_value = 350.0;
-    canvas->set_3dMouse(TX/max_value, TY/-max_value, TZ/-max_value, RX/-max_value, RY/-max_value, RZ/max_value);
-    //printf("%f %f %f %f %f %f \n", TX/max_value, TY/-max_value, TZ/-max_value, RX/-max_value, RY/-max_value, RZ/max_value);
+    //float max_value = 350.0;
 
-    //QVector3D traslationAxis = QVector3D(TX, TY, TZ).normalized();
-    //QVector3D rotationAxis = QVector3D(RX, RY, RZ).normalized();
+    QVector3D traslationAxis = QVector3D(TX, TY, TZ).normalized();
+    QVector3D rotationAxis = QVector3D(RX, RY, RZ).normalized();
     //qDebug() << "traslationAxis: " << traslationAxis;
     //qDebug() << "rotationAxis: " << rotationAxis;
+
+    canvas->set_3dMouse(traslationAxis.x(), traslationAxis.y()/-1.0, traslationAxis.z()/-1.0, rotationAxis.x()/-1.0, rotationAxis.y()/-1.0, rotationAxis.z());
+    //printf("%f %f %f %f %f %f \n", TX/max_value, TY/-max_value, TZ/-max_value, RX/-max_value, RY/-max_value, RZ/max_value);
 }
 
 void Painter::spaceMouseButton(const int &id)

@@ -267,8 +267,22 @@ void Canvas::set_angle_beta(double beta) {
  * tx, ty, tz, rx, ry, rz normalizaed [-1.0, 1.0]
 */
 void Canvas::set_3dMouse(float tx, float ty, float tz, float rx, float ry, float rz) {
-	((dataMesh*) data_shape)->v_main_node[0] = tx;
+	float d_speed = 0.015;
+	if (tx > 0 && ((dataMesh*) data_shape)->v_main_node[0] < 1.0)
+		((dataMesh*) data_shape)->v_main_node[0] += d_speed * tx;
+	else if (tx < 0 && ((dataMesh*) data_shape)->v_main_node[0] > -1.0)
+		((dataMesh*) data_shape)->v_main_node[0] -= d_speed * -tx;
+	
 	((dataMesh*) data_shape)->v_main_node[1] = 0;
-	((dataMesh*) data_shape)->v_main_node[2] = -ty;
+	
+	if (-ty > 0 && ((dataMesh*) data_shape)->v_main_node[2] < 1.0)
+		((dataMesh*) data_shape)->v_main_node[2] += d_speed * (-ty);
+	else if (-ty < 0 && ((dataMesh*) data_shape)->v_main_node[2] > -1.0)
+		((dataMesh*) data_shape)->v_main_node[2] -= d_speed * (ty);
 
+	// Limites
+	if (((dataMesh*) data_shape)->v_main_node[0] > 1.0) ((dataMesh*) data_shape)->v_main_node[0] = 1.0;
+	if (((dataMesh*) data_shape)->v_main_node[0] < -1.0) ((dataMesh*) data_shape)->v_main_node[0] = -1.0;
+	if (((dataMesh*) data_shape)->v_main_node[2] > 1.0) ((dataMesh*) data_shape)->v_main_node[2] = 1.0;
+	if (((dataMesh*) data_shape)->v_main_node[2] < -1.0) ((dataMesh*) data_shape)->v_main_node[2] = -1.0;
 }
