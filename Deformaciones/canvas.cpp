@@ -263,27 +263,12 @@ void Canvas::set_angle_beta(double beta) {
 	set_v_force(force, alpha, beta);
 }
 
-void Canvas::set_3dMouse(short rx, short ry) {
-	((dataMesh*) data_shape)->v_main_node[0] = ry / -530.0;
+/**
+ * tx, ty, tz, rx, ry, rz normalizaed [-1.0, 1.0]
+*/
+void Canvas::set_3dMouse(float tx, float ty, float tz, float rx, float ry, float rz) {
+	((dataMesh*) data_shape)->v_main_node[0] = tx;
 	((dataMesh*) data_shape)->v_main_node[1] = 0;
-	((dataMesh*) data_shape)->v_main_node[2] = rx / 530.0;
+	((dataMesh*) data_shape)->v_main_node[2] = -ty;
 
-	// short min = -525;
-	// short max = 525;
-	// short total = max - min;
-	// short interval = total/springs_len;
-
-	// short nodes_move = rx / interval;
-	// short node_x = (springs_len / 2) - nodes_move;
-
-	// nodes_move = ry / interval;
-	// short node_y = (springs_len / 2) - nodes_move;
-
-	// //printf("mouse: %d %d\n", rx, ry);
-	// //printf("nodes: %d %d\n", node_x, node_y);
-	
-	// if(main_node_x != node_x || main_node_y != node_y){
-	// 	main_node_x = node_x;
-	// 	main_node_y = node_y;
-	// }
 }

@@ -26,7 +26,7 @@ public:
 		*w = windowWidth;
 		*h = windowHeight;
 	}
-	void set_3dMouse(short rx, short ry);
+	void set_3dMouse(float tx, float ty, float tz, float rx, float ry, float rz);
 
 public slots:
 	void timerDone(void);

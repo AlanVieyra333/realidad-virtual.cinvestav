@@ -133,6 +133,45 @@ void Painter::setCenterDegree(float degree) {
     canvas->setCenterDegree(degree);
 }
 
-void Painter::set_3dMouse(short rx, short ry) {
-    canvas->set_3dMouse(rx, ry);
+void Painter::set_3dMouse(float tx, float ty, float tz, float rx, float ry, float rz) {
+    canvas->set_3dMouse(tx, ty, tz, rx, ry, rz);
+}
+
+/* ######################################################## */
+
+bool Painter::isSpaceMouseActive()
+{
+    return space_mouse_active;
+}
+
+void Painter::setSpaceMouseActive(bool value)
+{
+    space_mouse_active = value;
+}
+
+void Painter::spaceMouseMovement(const int &TX, const int &TY, const int &TZ, const int &RX, const int &RY, const int &RZ)
+{
+    float max_value = 350.0;
+    canvas->set_3dMouse(TX/max_value, TY/-max_value, TZ/-max_value, RX/-max_value, RY/-max_value, RZ/max_value);
+    //printf("%f %f %f %f %f %f \n", TX/max_value, TY/-max_value, TZ/-max_value, RX/-max_value, RY/-max_value, RZ/max_value);
+
+    //QVector3D traslationAxis = QVector3D(TX, TY, TZ).normalized();
+    //QVector3D rotationAxis = QVector3D(RX, RY, RZ).normalized();
+    //qDebug() << "traslationAxis: " << traslationAxis;
+    //qDebug() << "rotationAxis: " << rotationAxis;
+}
+
+void Painter::spaceMouseButton(const int &id)
+{
+    switch(id)
+    {
+    case 1: // Right button
+        // TODO
+        break;
+    case 2: // Left button
+        // TODO
+        break;
+    }
+
+    //qDebug() << "spaceMouseButton: " << id<< "\n";
 }

@@ -74,18 +74,6 @@ void Spring::dibuja_figura(void* data)
 			glVertex3d(x, y, z);
 		}
 	glEnd();
-	// glBegin(GL_POINTS);
-	// 	glColor3f(0.0, 0.0, 1.0);
-		
-	// 	//glVertex3d(nodes[0][0], nodes[0][1], nodes[0][2]);
-
-	// 	x = nodes[main_node][0] + mra[main_node].x;
-	// 	y = nodes[main_node][1] + mra[main_node].y;
-	// 	z = nodes[main_node][2] + mra[main_node].z;
-	// 	glVertex3d(x, y, z);
-
-	// 	//glVertex3d(nodes[nodes_len - 1][0], nodes[nodes_len - 1][1], nodes[nodes_len - 1][2]);
-	// glEnd();
 }
 
 void Spring::step_deformation() {

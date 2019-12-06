@@ -22,6 +22,7 @@ private:
 	int springs_len;
 	float d_spring;
 	int resolution;
+	int main_node[2]; 	// x, y: del nodo e N+ [0, nodes_len]
 
 	void init_springs_position();
 	void set_resolution(int resolution);

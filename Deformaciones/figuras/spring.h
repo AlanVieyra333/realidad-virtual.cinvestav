@@ -19,11 +19,12 @@ public:
 	void dibuja_figura(void* data);
 	void set_resolution(int val);
 	void set_dir(int dir);
+	float nodes[MAX_NODES][3];
+	MRA mra[MAX_NODES];
 
 private:
 	vector<float>  v_start, v_end;
-	float nodes[MAX_NODES][3];
-	MRA mra[MAX_NODES];
+	
 	int nodes_len;
 	float d_nodes;
 	int resolution;

@@ -9,12 +9,13 @@ INCLUDEPATH += .
 QT += opengl
 
 # Input
-HEADERS += painter.h canvas.h ./figuras/*.h ./utils/*.h
-SOURCES += main.cpp painter.cpp canvas.cpp ./figuras/*.cpp ./utils/*.cpp
+HEADERS += painter.h canvas.h ./figuras/*.h ./utils/*.h ./driver/*.h
+SOURCES += main.cpp painter.cpp canvas.cpp ./figuras/*.cpp ./utils/*.cpp ./driver/*.cpp
 QMAKE_CXXFLAGS += -std=c++11
 
 linux {
     QMAKE_LFLAGS += -lglut -lGLU -lGL
+    LIBS += -L"$$PWD/lib/linux" -lhidapi-hidraw
 }
 
 macx {

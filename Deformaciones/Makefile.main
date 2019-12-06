@@ -4,7 +4,7 @@ OS := $(shell uname -s)
 
 ifeq ($(OS), Linux)
 run: build
-	./${APP}
+	sudo ./${APP}
 endif
 ifeq ($(OS), Darwin)
 run: build
@@ -22,4 +22,5 @@ clean:
 	rm *.o
 	rm moc_*
 	rm Makefile
-	rm -r *.app/
+	rm ${APP}
+	rm -r ${APP}.app

@@ -51,6 +51,7 @@ void Mesh::init_springs_position() {
 
 void Mesh::dibuja_figura(void* data)
 {
+	float x, y, z;
 	dataMesh* data_mesh = (dataMesh*) data;
 
 	if(data_mesh->resolution != this->resolution) set_resolution(data_mesh->resolution);
@@ -67,6 +68,20 @@ void Mesh::dibuja_figura(void* data)
 		springs[1][i]->set_dir(1);
 		springs[1][i]->dibuja_figura(data);
     }
+
+	// Dibuja punto en nodo principal de fuerza.
+	glBegin(GL_POINTS);
+		glColor3f(0.0, 0.0, 1.0);
+		
+		//glVertex3d(nodes[0][0], nodes[0][1], nodes[0][2]);
+
+		x = data_mesh->v_main_node[0];
+		y = springs[1][main_node[0]]->nodes[main_node[1]][1] + springs[1][main_node[0]]->mra[main_node[1]].y;
+		z = data_mesh->v_main_node[2];
+		glVertex3d(x, y, z);
+
+		//glVertex3d(nodes[nodes_len - 1][0], nodes[nodes_len - 1][1], nodes[nodes_len - 1][2]);
+	glEnd();
 }
 
 /*	#########################################################	*/
@@ -101,6 +116,10 @@ void Mesh::set_resolution(int resolution) {
 void Mesh::calculate_main_node(float *v_main_node) {
 	float length_x = abs(v_end[0] - v_start[0]);
 	float length_z = abs(v_end[2] - v_start[2]);
+
+	// Calcular el nodo i-esimo & j-esimo
+	main_node[0] = (springs_len/2.0) + ((v_main_node[0] / 2.0) * springs_len);
+	main_node[1] = (springs_len/2.0) + ((v_main_node[2] / 2.0) * springs_len);
 
 	v_main_node[0] *= (length_x / 2.0);
 	v_main_node[1] *= 0;
