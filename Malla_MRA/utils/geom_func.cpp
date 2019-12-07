@@ -14,14 +14,14 @@ float deg_to_rad(float deg) {
 }
 
 float vectors_angle(vector<float> v1, vector<float> v2) {
-	return rad_to_deg(acos(point_product(v1, v2) / (mod_vector(v1) * mod_vector(v2))));
+	return rad_to_deg(acos(point_product(v1, v2) / (vector_mod(v1) * vector_mod(v2))));
 }
 
 float point_product(vector<float> v1, vector<float> v2) {
 	return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2];
 }
 
-float mod_vector(vector<float> v) {
+float vector_mod(vector<float> v) {
 	return sqrt(point_product(v, v));
 }
 

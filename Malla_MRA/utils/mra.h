@@ -10,6 +10,8 @@ class MRA
 private:
     float dt, k, m, b;
     float k1, k2;
+
+    void set_T(float T);
 public:
     vector<float> v_force;
 
@@ -21,6 +23,9 @@ public:
 
     float z_1, z;
     float k3z;
+
+    float T;
+    bool control;
 
     MRA(/* args */);
     ~MRA();

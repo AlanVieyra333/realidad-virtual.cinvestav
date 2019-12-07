@@ -252,6 +252,7 @@ void Canvas::set_v_force(float force, float alpha_deg, float beta_deg) {
 }
 
 void Canvas::set_force(double force) {
+	((dataMesh*) data_shape)->apply_force = true;
 	set_v_force(force, alpha, beta);
 }
 
@@ -267,6 +268,7 @@ void Canvas::set_angle_beta(double beta) {
  * tx, ty, tz, rx, ry, rz normalizaed [-1.0, 1.0]
 */
 void Canvas::set_3dMouse(float tx, float ty, float tz, float rx, float ry, float rz) {
+	// Posición del nodo principal.
 	float d_speed = 0.015;
 	if (tx > 0 && ((dataMesh*) data_shape)->v_main_node[0] < 1.0)
 		((dataMesh*) data_shape)->v_main_node[0] += d_speed * tx;
@@ -285,4 +287,9 @@ void Canvas::set_3dMouse(float tx, float ty, float tz, float rx, float ry, float
 	if (((dataMesh*) data_shape)->v_main_node[0] < -1.0) ((dataMesh*) data_shape)->v_main_node[0] = -1.0;
 	if (((dataMesh*) data_shape)->v_main_node[2] > 1.0) ((dataMesh*) data_shape)->v_main_node[2] = 1.0;
 	if (((dataMesh*) data_shape)->v_main_node[2] < -1.0) ((dataMesh*) data_shape)->v_main_node[2] = -1.0;
+
+	// Fuerza
+
+	//printf("z: %f\n", tz);
+	set_force(0.2 * tz);
 }

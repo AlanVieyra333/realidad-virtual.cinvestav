@@ -4,20 +4,25 @@
 
 MRA::MRA()
 {
+    T = 3.0;
+
     k = 0.2;
     m = 0.01;
-    b = 0.02667;
+    b = 8.0*m/T; //0.02667
     dt = 1.0/30.0;
 
     k1 = 2.0 - dt*(k*dt + b)/m;
 	k2 = 1.0 - dt*b/m;
     k3x = k3y = k3z = 0.0;
 
+    set_T(3.0);
     set_v_force({0,0.2,0});
 
     x_1 = x = 0.0;
     y_1 = y = 0.0;
     z_1 = z = 0.0;
+
+    control = true;
 }
 
 MRA::~MRA(){}
@@ -39,6 +44,17 @@ void MRA::quit_force() {
 void MRA::step_deformation() {
     float x_next, y_next, z_next;
 
+    if (control)
+    {
+        if (vector_mod(this->v_force) != 0)
+        {
+            set_T(1.0);
+        } else {
+            set_T(3.0);
+        }
+    }
+    
+
     x_next = k1 * x - k2 * x_1 + k3x;
     x_1 = x;
     x   = x_next;
@@ -50,4 +66,12 @@ void MRA::step_deformation() {
     z_next = k1 * z - k2 * z_1 + k3z;
     z_1 = z;
     z   = z_next;
+}
+
+
+void MRA::set_T(float T) {
+    this->T = T;
+    b = 8.0*m/T;                        //0.02667
+    k1 = 2.0 - dt*(k*dt + b)/m;
+	k2 = 1.0 - dt*b/m;
 }

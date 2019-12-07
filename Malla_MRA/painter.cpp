@@ -35,7 +35,7 @@ Painter::Painter( QWidget *parent )
 	forceValue->setRange( 0.0, 0.2 );
 	forceValue->setSingleStep( 0.01 );
     connect( forceValue, SIGNAL(valueChanged(double)), canvas, SLOT( set_force(double) ) );
-    forceValue->setValue( 0.2 );
+    forceValue->setValue( 0.0 );
 	
     textoAngulo = new QLabel(  );
     textoAngulo->setText("Ángulo alpha");
@@ -151,9 +151,10 @@ void Painter::setSpaceMouseActive(bool value)
 
 void Painter::spaceMouseMovement(const int &TX, const int &TY, const int &TZ, const int &RX, const int &RY, const int &RZ)
 {
-    //float max_value = 350.0;
+    float max_value = 350.0;
+    QVector2D xy = QVector2D(TX, TY).normalized();
 
-    QVector3D traslationAxis = QVector3D(TX, TY, TZ).normalized();
+    QVector3D traslationAxis = QVector3D(xy.x(), xy.y(), TZ/max_value);
     QVector3D rotationAxis = QVector3D(RX, RY, RZ).normalized();
     //qDebug() << "traslationAxis: " << traslationAxis;
     //qDebug() << "rotationAxis: " << rotationAxis;
