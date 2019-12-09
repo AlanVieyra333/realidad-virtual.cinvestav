@@ -1,7 +1,7 @@
 #ifndef MESH_H
 #define MESH_H
 
-#include "figura.h"
+#include "shape.h"
 #include "spring.h"
 #include <vector>
 
@@ -10,7 +10,7 @@
 
 using namespace std;
 
-class Mesh : public Figura
+class Mesh : public Shape
 {
 public:
 	Mesh(vector<float> v_start, vector<float>  v_end);

@@ -7,7 +7,7 @@
     #include <GL/glu.h>
 #endif 
 
-Cubo::Cubo(vector<float> v1, vector<float> v2, float color[3]):Figura(color)
+Cubo::Cubo(vector<float> v1, vector<float> v2, float color[3]):Shape(color)
 {
 	// X										Y											Z
 	cubo[0][0] = v2[0]; 	cubo[0][1] = v2[1]; 	cubo[0][2] = v2[2];

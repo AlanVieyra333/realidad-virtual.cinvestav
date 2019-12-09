@@ -117,8 +117,8 @@ void Painter::newPosition( )
 	messpos->setText( s.sprintf("%d,%d", mx, my ) );
 }
 
-void Painter::addShape(Figura *figura) {
-    canvas->addShape(figura);
+void Painter::addShape(Shape *shape) {
+    canvas->addShape(shape);
 }
 
 void Painter::setEye(float x, float y, float z) {

@@ -178,7 +178,7 @@ void Canvas::paintGL(void)
 	glPopMatrix( );
 }
 
-void Canvas::addShape(Figura *shape) {
+void Canvas::addShape(Shape *shape) {
 	shapes.push_back(shape);
 }
 
@@ -227,6 +227,12 @@ void Canvas::reset(void) {
 	eye[0] = eyeO[0]; eye[1] = eyeO[1]; eye[2] = eyeO[2];
 	centerDegree = centerDegreeO;
 	center[0] = centerO[0]; center[1] = centerO[1]; center[2] = centerO[2];
+
+	((dataMesh*) data_shape)->v_main_node[0] = 0;
+	((dataMesh*) data_shape)->v_main_node[1] = 0;
+	((dataMesh*) data_shape)->v_main_node[2] = 0;
+	set_angle_alpha(0);
+	set_angle_beta(90);
 
 	//timer->stop( );
 	updateGL( );

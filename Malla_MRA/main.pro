@@ -9,8 +9,8 @@ INCLUDEPATH += .
 QT += opengl
 
 # Input
-HEADERS += painter.h canvas.h ./figuras/*.h ./utils/*.h ./driver/*.h
-SOURCES += main.cpp painter.cpp canvas.cpp ./figuras/*.cpp ./utils/*.cpp ./driver/*.cpp
+HEADERS += painter.h canvas.h ./shapes/*.h ./utils/*.h ./driver/*.h
+SOURCES += main.cpp painter.cpp canvas.cpp ./shapes/*.cpp ./utils/*.cpp ./driver/*.cpp
 QMAKE_CXXFLAGS += -std=c++11
 
 linux {

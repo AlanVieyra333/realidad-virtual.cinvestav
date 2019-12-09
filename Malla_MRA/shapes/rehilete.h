@@ -1,9 +1,9 @@
 #ifndef REHILETE_H
 #define REHILETE_H
 
-#include "figura.h"
+#include "shape.h"
 
-class Rehilete: public Figura
+class Rehilete: public Shape
 {
 public:
 	Rehilete(float l);

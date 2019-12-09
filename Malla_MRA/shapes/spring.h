@@ -1,7 +1,7 @@
 #ifndef SPRING_H
 #define SPRING_H
 
-#include "figura.h"
+#include "shape.h"
 #include "../utils/mra.h"
 #include <vector>
 #include <cmath>
@@ -12,7 +12,7 @@
 
 using namespace std;
 
-class Spring : public Figura
+class Spring : public Shape
 {
 public:
 	Spring(vector<float> v1, vector<float>  v2);

@@ -5,7 +5,7 @@
 #include <QTimer>
 #include <vector>
 
-#include "figuras/figura.h"
+#include "shapes/shape.h"
 
 using namespace std;
 
@@ -34,7 +34,7 @@ public slots:
 	void stop(void);
 	void reset(void);
 
-	void addShape(Figura*);
+	void addShape(Shape*);
 	void setEye(float, float, float);
 	void setCenter(float, float, float);
 	void setCenterDegree(float);
@@ -72,7 +72,7 @@ private:
 	float force, alpha, beta;
 
 	/* Figures */
-	vector<Figura*> shapes;
+	vector<Shape*> shapes;
 	void* data_shape = NULL;
 
 	void set_v_force(float force, float alpha, float beta);

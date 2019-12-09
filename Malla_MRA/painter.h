@@ -13,7 +13,7 @@ class Painter: public QWidget, public SpaceMouseListener
 	Q_OBJECT
 public:
     Painter( QWidget *parent=0 );
-	void addShape(Figura*);
+	void addShape(Shape*);
 	void setEye(float, float, float);
 	void setCenter(float, float, float);
 	void setCenterDegree(float);

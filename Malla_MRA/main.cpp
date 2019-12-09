@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "painter.h"
-#include "figuras/mesh.h"
+#include "shapes/mesh.h"
 #include "driver/SpaceMouseController.h"
 
 void addShapes(Painter *);

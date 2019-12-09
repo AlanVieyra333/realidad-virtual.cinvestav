@@ -1,12 +1,12 @@
 #ifndef CUBO_H
 #define CUBO_H
 
-#include "figura.h"
+#include "shape.h"
 #include <vector>
 
 using namespace std;
 
-class Cubo : public Figura
+class Cubo : public Shape
 {
 public:
 	Cubo(vector<float> v1, vector<float> v2, float color[]);
