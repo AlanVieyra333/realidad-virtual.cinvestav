@@ -75,9 +75,9 @@ void Mesh::dibuja_figura(void* data)
 		
 		//glVertex3d(nodes[0][0], nodes[0][1], nodes[0][2]);
 
-		x = data_mesh->v_main_node[0];
+		x = springs[1][main_node[0]]->nodes[main_node[1]][0] + springs[1][main_node[0]]->mra[main_node[1]].x;
 		y = springs[1][main_node[0]]->nodes[main_node[1]][1] + springs[1][main_node[0]]->mra[main_node[1]].y;
-		z = data_mesh->v_main_node[2];
+		z = springs[1][main_node[0]]->nodes[main_node[1]][2] + springs[1][main_node[0]]->mra[main_node[1]].z;
 		glVertex3d(x, y, z);
 
 		//glVertex3d(nodes[nodes_len - 1][0], nodes[nodes_len - 1][1], nodes[nodes_len - 1][2]);

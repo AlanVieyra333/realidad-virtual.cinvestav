@@ -46,7 +46,7 @@ void MRA::step_deformation() {
 
     if (control)
     {
-        if (vector_mod(this->v_force) != 0)
+        if (vector_mod(this->v_force) != 0 && (k3x != 0 || k3y != 0 || k3z != 0))
         {
             set_T(1.0);
         } else {
