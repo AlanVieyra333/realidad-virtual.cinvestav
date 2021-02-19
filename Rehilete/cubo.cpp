@@ -5,8 +5,7 @@
     #include <gl/glut.h>
 #endif
 
-Cubo::Cubo(float l)
-{
+Cubo::Cubo(float l) {
 	// X							Y								Z
 	cubo[0][0] = l; cubo[0][1] = l; cubo[0][2] = l;
 	cubo[1][0] = l; cubo[1][1] = l; cubo[1][2] = 0;
@@ -19,13 +18,7 @@ Cubo::Cubo(float l)
   cubo[7][0] = 0; cubo[7][1] = 0; cubo[7][2] = l;
 }
 
-void Cubo::dibuja_figura(float angle)
-{
-	/*glRotatef(-45.00, 0.0, 1.0, 0.0);
-	glRotatef(35.26, 0.0, 0.0, 1.0);
-	glRotatef(angle, 1.0, 0.0, 0.0);
-	glRotatef(-35.26, 0.0, 0.0, 1.0);
-	glRotatef(45.00, 0.0, 1.0, 0.0);*/
+void Cubo::dibuja_figura(float angle) {
 
 	static float Mcolores[6][3] = {
 			{1.0, 0.0, 0.0},	// rojo
@@ -45,8 +38,7 @@ void Cubo::dibuja_figura(float angle)
 
 	glBegin(GL_QUADS);
 
-	for (int i = 0; i < 6; i++)
-	{
+	for (int i = 0; i < 6; i++) {
 		glColor3fv(&Mcolores[i][0]);
 
 		glVertex3fv(cubo[Mcaras[i][0]]);
