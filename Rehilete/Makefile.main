@@ -7,4 +7,4 @@ ${APP}.app/Contents/MacOS/${APP}: Makefile *.cpp *.h
 Makefile: ${APP}.pro
 	qmake ${APP}.pro
 clean:
-	rm -rf ./*.o ./.*.stash ./*.app Makefile
+	rm -rf ./*.o ./.*.stash ./*.app moc_* Makefile
