@@ -6,7 +6,7 @@ TEMPLATE = app
 TARGET		= cubo
 INCLUDEPATH += .
 # ¿Es necesario incluir este camino? :
-INCLUDEPATH += "/usr/X11/include"
+#INCLUDEPATH += "/usr/X11/include"
 
 
 QT += opengl

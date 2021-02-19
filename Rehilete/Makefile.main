@@ -1,8 +1,10 @@
 APP=cubo
 
-run: ${APP}.app
-	./cubo.app/Contents/MacOS/cubo
-${APP}.app: Makefile *.cpp *.h
+run: ${APP}.app/Contents/MacOS/${APP}
+	./${APP}.app/Contents/MacOS/${APP}
+${APP}.app/Contents/MacOS/${APP}: Makefile *.cpp *.h
 	make
 Makefile: ${APP}.pro
 	qmake ${APP}.pro
+clean:
+	rm -rf ./*.o ./.*.stash ./*.app Makefile

@@ -1,6 +1,10 @@
 #include "canvas.h"
 #include <qpainter.h>
-#include <GL/glu.h>
+#if defined(__APPLE__) || defined(MACOSX)
+  #include <GLUT/glut.h>
+#else
+    #include <gl/glut.h>
+#endif
 
 Canvas::Canvas( QWidget *parent )
 		: QGLWidget( parent )
